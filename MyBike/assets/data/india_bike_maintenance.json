@@ -1,0 +1,5192 @@
+{
+  "brands": [
+    {
+      "id": "hero",
+      "name": "Hero MotoCorp",
+      "origin": "India",
+      "color": "#d62728",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Splendor Plus",
+          "cc": 97.2,
+          "type": "Commuter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter clean",
+              "interval": "6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter clean / replace",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug inspect / replace",
+              "interval": "Inspect 3,000 km / Replace 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km (authorised workshop)",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every 3,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Tappet (valve) clearance",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Throttle / idle speed check",
+              "interval": "Every service",
+              "type": "engine",
+              "priority": "low"
+            },
+            {
+              "task": "Fuel line inspect",
+              "interval": "Every service",
+              "type": "fuel",
+              "priority": "medium"
+            },
+            {
+              "task": "Battery voltage check",
+              "interval": "Every service",
+              "type": "electrical",
+              "priority": "low"
+            }
+          ],
+          "notes": "Warranty: 5 years / 70,000 km. Service every 90 days or 3,000 km after free services."
+        },
+        {
+          "name": "HF Deluxe",
+          "cc": 97.2,
+          "type": "Commuter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter clean / replace",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug inspect / replace",
+              "interval": "Inspect 3,000 km / Replace 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake shoe inspect",
+              "interval": "Every 3,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Tappet (valve) clearance",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Budget commuter. Oil top-up every 1,500 km."
+        },
+        {
+          "name": "Glamour / Glamour X",
+          "cc": 125,
+          "type": "Commuter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter (paper)",
+              "interval": "Replace every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Oil strainer clean",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every service (clean) / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug inspect / replace",
+              "interval": "Inspect every service / Replace 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube, clean & adjust",
+              "interval": "Every 2,000 km (workshop)",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 30,000 km or 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake shoe/pad wear check",
+              "interval": "Every service",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "ECU idle speed init",
+              "interval": "Every 3,000 km at workshop",
+              "type": "engine",
+              "priority": "low"
+            }
+          ],
+          "notes": "FI model. Brake fluid: replace every 30,000 km or 2 years, whichever earlier."
+        },
+        {
+          "name": "Xtreme 160R 4V",
+          "cc": 163.2,
+          "type": "Street Naked",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 30,000 km or 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Front fork oil replace",
+              "interval": "Every 18,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            }
+          ],
+          "notes": "Recommended oil: 10W-30 semi-synthetic. Break-in: avoid >5,000 rpm until 1,000 km."
+        },
+        {
+          "name": "Xpulse 200 4V",
+          "cc": 199.6,
+          "type": "Adventure",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "More frequent in dusty/off-road conditions",
+              "type": "filter",
+              "priority": "high"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 500–1,000 km off-road / 2,000 km road",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Front fork oil replace",
+              "interval": "Every 18,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 30,000 km or 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Off-road: check chain and air filter more frequently. Long travel suspension needs regular fork oil monitoring."
+        },
+        {
+          "name": "Karizma XMR 250",
+          "cc": 210,
+          "type": "Sport",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every service (5,000 km)",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant check / change",
+              "interval": "Top-up every service / Replace every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years or 30,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Liquid-cooled engine. Monitor coolant level. Use manufacturer-recommended fully synthetic 10W-40."
+        },
+        {
+          "name": "Splendor Plus / HF Deluxe / HF 100",
+          "cc": 97.2,
+          "type": "Commuter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter clean / replace",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug inspect / replace",
+              "interval": "Inspect 3,000 km / Replace 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km (workshop)",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake shoe/pad inspect",
+              "interval": "Every 3,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            }
+          ],
+          "notes": "India's best-selling commuters. Warranty: 5 years/70,000 km. Service every 90 days or 3,000 km. 10W-30 mineral oil. Extremely low running costs."
+        },
+        {
+          "name": "Glamour / Super Splendor / Passion",
+          "cc": 125,
+          "type": "Commuter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter clean / replace",
+              "interval": "Clean each service / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 30,000 km or 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "ECU idle init",
+              "interval": "Every 3,000 km at workshop",
+              "type": "engine",
+              "priority": "low"
+            }
+          ],
+          "notes": "FI 125 cc commuters. Brake fluid: every 2 years or 30,000 km. ECU reset improves fuel delivery."
+        },
+        {
+          "name": "Karizma XMR 210 / Mavrick 440",
+          "cc": 440,
+          "type": "Sport / Cruiser",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Mavrick 440 shares Harley X440 platform. Karizma is LC DOHC. 10W-40 fully synthetic for both."
+        },
+        {
+          "name": "Harley-Davidson X440 (Hero variant)",
+          "cc": 440,
+          "type": "Streetfighter",
+          "cooling": "Air+Oil",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + strainer change",
+              "interval": "10,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Co-developed with Harley. See Harley X440 entry for full details. Hero services this at their network."
+        }
+      ]
+    },
+    {
+      "id": "royalenfield",
+      "name": "Royal Enfield",
+      "origin": "India",
+      "color": "#8c564b",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Classic 350 / Meteor 350 / Hunter 350 / Bullet 350",
+          "cc": 349,
+          "type": "Retro / Cruiser",
+          "cooling": "Air+Oil",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 5,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter clean / replace",
+              "interval": "Clean 10,000 km / Replace 20,000 km (more in dusty conditions)",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 10,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km or as required",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 5,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Front fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years or 40,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant (oil cooler check)",
+              "interval": "Check every 5,000 km",
+              "type": "cooling",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake pad / shoe inspect",
+              "interval": "Every 5,000 km",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "J-platform engine. Service interval is 5,000 km or 6 months. Valve checks are unusually frequent — every 5,000 km. Use RE Liquid Gun 20W50 semi-synthetic or 10W50 fully synthetic."
+        },
+        {
+          "name": "Himalayan 450 / Guerrilla 450",
+          "cc": 452,
+          "type": "Adventure / Roadster",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First break-in service",
+              "interval": "500 km (critical — do not skip)",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 5,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 10,000 km (more frequently off-road)",
+              "type": "filter",
+              "priority": "high"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km (500 km off-road)",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Front USD fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years or 40,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Skipping the 500 km break-in service can reduce engine life by 30–40%. Liquid-cooled Sherpa 450 engine. Use RE-approved fully synthetic 10W-40."
+        },
+        {
+          "name": "Interceptor 650 / Continental GT 650",
+          "cc": 648,
+          "type": "Retro / Café Racer",
+          "cooling": "Air+Oil",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "10,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 10,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km or as required",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 5,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Front fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years or 40,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil top-up check",
+              "interval": "Every 1,000 km check level",
+              "type": "oil",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Parallel twin 270° crank. Use RE Liquid Gun 10W50 fully synthetic. Valve check every 5,000 km is a known quirk. Oil cooler on frame — inspect for leaks."
+        },
+        {
+          "name": "Super Meteor 650 / Shotgun 650 / Bear 650",
+          "cc": 648,
+          "type": "Cruiser",
+          "cooling": "Air+Oil",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "10,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 10,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 5,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Front USD fork oil replace",
+              "interval": "Every 20,000 km (USD forks)",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years or 40,000 km",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "USD front forks on Super Meteor 650. Use the Sherpa-specific fork oil. These models share the 650 twin platform."
+        }
+      ]
+    },
+    {
+      "id": "bajaj",
+      "name": "Bajaj Auto",
+      "origin": "India",
+      "color": "#1f77b4",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Pulsar NS160 / NS200",
+          "cc": 200,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 4 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Alternate service (10,000 km)",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant top-up / replace",
+              "interval": "Check every service / Replace every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 30,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 5,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Liquid-cooled 4V SOHC. Keep revs below 4,000 rpm for first 1,000 km and 5,000 rpm for next 1,000 km. 5-year engine warranty."
+        },
+        {
+          "name": "Pulsar N250 / F250",
+          "cc": 249,
+          "type": "Street Naked / Faired",
+          "cooling": "Oil",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 4 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 30,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 5,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Oil-cooled SOHC single. Use Bajaj-approved 20W-40 semi-synthetic or 10W-40 fully synthetic."
+        },
+        {
+          "name": "Pulsar NS400Z",
+          "cc": 373.3,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 5,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            }
+          ],
+          "notes": "KTM-derived 373 cc liquid-cooled engine. Use 10W-40 fully synthetic."
+        },
+        {
+          "name": "Dominar 250 / Dominar 400",
+          "cc": 373.3,
+          "type": "Sports Tourer",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 5,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Front USD fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Dominar 400 shares platform with KTM 390. USD forks. 10W-40 fully synthetic. Great tourer but service costs higher due to LC engine."
+        },
+        {
+          "name": "Bajaj Chetak (EV)",
+          "cc": 0,
+          "type": "Electric Scooter",
+          "cooling": "Air",
+          "chain": false,
+          "maintenance": [
+            {
+              "task": "Periodic check",
+              "interval": "Every 6,000 km or 1 year",
+              "type": "motor",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every 6,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Battery health diagnostic",
+              "interval": "Every 6,000 km",
+              "type": "battery",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            }
+          ],
+          "notes": "IP67 battery protection. Retro styling. No engine oil or spark plugs. Service at Bajaj-authorised Chetak centres."
+        }
+      ]
+    },
+    {
+      "id": "honda",
+      "name": "Honda (HMSI)",
+      "origin": "India",
+      "color": "#e7298a",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "CB Shine 125 / SP 125",
+          "cc": 124,
+          "type": "Commuter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 8,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake pad / shoe inspect",
+              "interval": "Every service",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            }
+          ],
+          "notes": "125 cc reliable commuter. Honda recommends 10W-30 mineral oil. Extremely low maintenance cost."
+        },
+        {
+          "name": "Unicorn 160 / SP 160",
+          "cc": 162.7,
+          "type": "Commuter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 8,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years or 30,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every service",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Reliable workhorse 160 cc. Honda recommends 10W-30 semi-synthetic."
+        },
+        {
+          "name": "CB Hornet 2.0",
+          "cc": 184.4,
+          "type": "Street Naked",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 8,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years or 30,000 km",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "FI engine. 10W-30 semi-synthetic recommended. Inspect ABS sensor wiring regularly."
+        },
+        {
+          "name": "CB300R / NX200",
+          "cc": 286,
+          "type": "Street Naked / ADV",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "12,800 km (8,000 mi) or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 25,600 km (alternate oil change)",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 25,600 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 51,200 km",
+              "type": "ignition",
+              "priority": "low"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km (clean & check)",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 25,600 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Honda's longer service intervals apply. 10W-40 semi-synthetic. Very low long-term maintenance cost."
+        },
+        {
+          "name": "CB500F / CB500X",
+          "cc": 471,
+          "type": "Naked / ADV",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "6,400 km (4,000 mi) or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every service",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 3 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 25,600 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 19,200 km (DOHC — DIY possible)",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Front fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Parallel twin, very smooth. 10W-40 full synthetic for CB500X. Great long-distance machine."
+        },
+        {
+          "name": "CB Shine / SP 125 / Livo",
+          "cc": 124,
+          "type": "Commuter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 8,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake pad/shoe inspect",
+              "interval": "Every service",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "125 cc Honda commuters. 10W-30 mineral. Extremely reliable and low cost. No coolant required."
+        },
+        {
+          "name": "Unicorn 160 / SP 160 / Hornet 2.0",
+          "cc": 184,
+          "type": "Commuter/Naked",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 8,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years or 30,000 km",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Dependable Honda 160 family. 10W-30 semi-synthetic. FI on Hornet 2.0 — inspect ABS wiring periodically."
+        }
+      ]
+    },
+    {
+      "id": "yamaha",
+      "name": "Yamaha Motor India",
+      "origin": "India",
+      "color": "#9467bd",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "FZ-FI / FZ-S FI (V3/V4)",
+          "cc": 149,
+          "type": "Street Naked",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 120 days",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Inspect/clean every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug inspect / replace",
+              "interval": "Inspect each service / Replace as needed",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km (check slack)",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Front fork oil replace",
+              "interval": "Every 10,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Throttle cable lube",
+              "interval": "Every service",
+              "type": "engine",
+              "priority": "low"
+            }
+          ],
+          "notes": "Free services: 1,000 km (30 days), 4,000 km (150 days), 7,000 km (270 days), 10,000 km (390 days). Paid service every 3,000 km / 120 days thereafter."
+        },
+        {
+          "name": "FZ25 / FZS25",
+          "cc": 249,
+          "type": "Street Naked",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 120 days",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean every 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug inspect / replace",
+              "interval": "Inspect each service / Replace 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Front fork oil replace",
+              "interval": "Every 10,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Air-cooled 250 cc — simple and affordable to maintain. Suitable for highways."
+        },
+        {
+          "name": "MT-15 Ver 2.0",
+          "cc": 155.8,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 120 days",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "VVA liquid-cooled engine. 10W-40 semi-synthetic. Shares platform with R15 V4."
+        },
+        {
+          "name": "R15 V4 / R15S",
+          "cc": 155.8,
+          "type": "Sport",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 2 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Throttle body clean",
+              "interval": "Every 20,000 km",
+              "type": "engine",
+              "priority": "low"
+            }
+          ],
+          "notes": "VVA tech. Short 3,000 km service cycle due to typical city use. 10W-40 semi-synthetic or fully synthetic. Avoid track riding without cooling upgrade."
+        },
+        {
+          "name": "MT-03 / R3",
+          "cc": 321,
+          "type": "Naked / Sport",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 20,000 km (DOHC parallel twin)",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "321 cc parallel twin DOHC. Longer valve check intervals. 10W-40 full synthetic recommended. Pairs well as first step-up bike."
+        },
+        {
+          "name": "MT-15 Ver 2.0 / R15 V4 / R15S",
+          "cc": 155.8,
+          "type": "Naked/Sport",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 2 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "VVA LC engine. 10W-40 semi-synthetic. Short 3,000 km service cycle due to city use."
+        },
+        {
+          "name": "MT-03 / R3 / XSR 155",
+          "cc": 321,
+          "type": "Naked/Sport",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 20,000 km (DOHC parallel twin)",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "321 cc DOHC parallel twin. Long valve intervals. 10W-40 fully synthetic."
+        }
+      ]
+    },
+    {
+      "id": "tvs",
+      "name": "TVS Motor Company",
+      "origin": "India",
+      "color": "#2ca02c",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Apache RTR 160 4V",
+          "cc": 163.8,
+          "type": "Street Naked",
+          "cooling": "Oil",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or every service",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter (paper) replace",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Oil strainer (mesh) clean",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Inspect/clean every service / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 500–600 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve (tappet) clearance check",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Front fork oil replace",
+              "interval": "Every 18,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years or 20,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure",
+              "interval": "Front 28 PSI / Rear 32 PSI — check before each ride",
+              "type": "tyres",
+              "priority": "high"
+            }
+          ],
+          "notes": "TVS recommends 20W-40 semi-synthetic (TVS TRU4 PREMIUM). Chain lube every 500–600 km is shorter than most — stick to it. Fork oil: 140±2 ml per leg (Gabriel) or 152±2 ml (Top make)."
+        },
+        {
+          "name": "Apache RTR 200 4V",
+          "cc": 197.75,
+          "type": "Street Naked",
+          "cooling": "Oil",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 4 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 6,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Clean each service / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 500–600 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Front fork oil replace",
+              "interval": "Every 18,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Oil-cooled. TVS TRU4 Premium 20W-40. Throttle body cleaning at ~20,000 km recommended. Clutch plates may need attention at 22,000–28,000 km."
+        },
+        {
+          "name": "Apache RR 310",
+          "cc": 312.2,
+          "type": "Sport",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 5,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 500–600 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Front fork oil replace",
+              "interval": "Every 20,000 km (USD forks)",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "BMW G 310 R-derived engine. Liquid cooled. Use 10W-40 fully synthetic. USD forks. One of the most track-capable bikes made in India."
+        },
+        {
+          "name": "Raider 125",
+          "cc": 124.8,
+          "type": "Commuter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean every service / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 500–600 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every service",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Sporty 125 cc commuter. TVS TRU4 20W-40. Very affordable maintenance."
+        },
+        {
+          "name": "Raider 125 / Star City+",
+          "cc": 125,
+          "type": "Commuter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean each service / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 500–600 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every service",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "TVS TRU4 20W-40. Chain lube every 500–600 km — shorter than most brands."
+        },
+        {
+          "name": "iQube / iQube S / iQube ST (EV)",
+          "cc": 0,
+          "type": "Electric Scooter",
+          "cooling": "Air",
+          "chain": false,
+          "maintenance": [
+            {
+              "task": "Periodic service check",
+              "interval": "Every 5,000 km or 1 year",
+              "type": "motor",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every 5,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Battery health diagnostic",
+              "interval": "Every 5,000 km",
+              "type": "battery",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            },
+            {
+              "task": "OTA software update",
+              "interval": "As available",
+              "type": "software",
+              "priority": "medium"
+            }
+          ],
+          "notes": "TVS's electric scooter. No engine oil, spark plugs, or clutch. Serviced at TVS workshops. 5,000 km service interval. Regenerative braking reduces brake pad wear."
+        }
+      ]
+    },
+    {
+      "id": "ktm",
+      "name": "KTM (Bajaj-KTM)",
+      "origin": "India",
+      "color": "#ff7f0e",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "125 Duke",
+          "cc": 124.7,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First break-in service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "7,500 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace every 4 years",
+              "type": "cooling",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 7,500 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 15,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km or when dry",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 15,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "KTM recommends fully synthetic 10W-50. Service interval wider than earlier gens. Trellis frame benefits from periodic check of all bolts."
+        },
+        {
+          "name": "200 Duke",
+          "cc": 199.5,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First break-in service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "7,500 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace every 4 years",
+              "type": "cooling",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 7,500 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 15,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 15,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Front WP fork oil check",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "WP suspension. Fully synthetic 10W-50 mandatory (conventional oil will overheat the LC engine). Service cost ₹2,500–3,000 typically."
+        },
+        {
+          "name": "250 Duke",
+          "cc": 248.8,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First break-in service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "7,500 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace every 4 years",
+              "type": "cooling",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 7,500 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 15,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 15,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Similar platform to 200 Duke. Ride-by-wire from 2024 refresh. 10W-50 fully synthetic. Coolant: 4-year change interval."
+        },
+        {
+          "name": "390 Duke (2024+)",
+          "cc": 398.7,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First break-in service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter + air filter change",
+              "interval": "Every 10,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace every 4 years",
+              "type": "cooling",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 10,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 20,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "WP fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "2024 gen has wider service intervals: oil every 10,000 km. Valve check pushed to 20,000 km. 10W-50 fully synthetic only. TFT dash, traction control — keep software updated."
+        },
+        {
+          "name": "390 Adventure / 390 SMC R",
+          "cc": 398.7,
+          "type": "Adventure / Supermoto",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First break-in service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter + air filter change",
+              "interval": "10,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check each service / Replace 4 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km (500 km off-road for ADV)",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 10,000 km (more frequently off-road)",
+              "type": "filter",
+              "priority": "high"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 10,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 20,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "WP XACT fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Off-road riding demands more frequent air filter and chain checks. Cornering ABS. 10W-50 fully synthetic only."
+        },
+        {
+          "name": "125 Duke / 200 Duke / 250 Duke",
+          "cc": 250,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "7,500 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 4 years",
+              "type": "cooling",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 7,500 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 15,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 15,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "WP fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "KTM-family LC singles. 10W-50 fully synthetic mandatory. WP suspension. Trellis frame — check all bolts periodically. Service cost ₹2,500–3,000."
+        }
+      ]
+    },
+    {
+      "id": "aprilia",
+      "name": "Aprilia",
+      "origin": "India",
+      "color": "#b71c1c",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "SR 125 / Storm 125 (Scooter)",
+          "cc": 125,
+          "type": "Scooter",
+          "cooling": "Air",
+          "chain": false,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter clean/replace",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "CVT belt inspect",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            }
+          ],
+          "notes": "Piaggio i-Get engine. Use 5W-40 semi-synthetic. CVT belt check is critical — failure strands the rider."
+        },
+        {
+          "name": "RS 457 / Tuono 457",
+          "cc": 457,
+          "type": "Sport / Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "1,000 km (mandatory)",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "6,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check each service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 12,000 km (sooner if dirty)",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 24,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km or after rain/wash",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 12,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 24,000 km (USD forks)",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Made in India (Baramati). Service every 6,000 km or 6 months. No labour charges within warranty. 10W-40 fully synthetic. O-ring, flywheel cap and fork plug O-rings: replace at each service."
+        }
+      ]
+    },
+    {
+      "id": "ather",
+      "name": "Ather Energy",
+      "origin": "India",
+      "color": "#81c784",
+      "isElectric": true,
+      "models": [
+        {
+          "name": "450S / 450X / 450 Apex",
+          "cc": 0,
+          "type": "Electric Scooter",
+          "cooling": "Liquid",
+          "chain": false,
+          "maintenance": [
+            {
+              "task": "Periodic maintenance check",
+              "interval": "Every 5,000 km or 1 year (usage-based)",
+              "type": "motor",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every 5,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Battery health check",
+              "interval": "Every 5,000 km (25–30 checkpoint inspection)",
+              "type": "battery",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Front 30 PSI / Rear 35 PSI — before every ride",
+              "type": "tyres",
+              "priority": "high"
+            },
+            {
+              "task": "OTA software update",
+              "interval": "As available — accept promptly",
+              "type": "software",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant check (motor cooling)",
+              "interval": "Every service",
+              "type": "cooling",
+              "priority": "medium"
+            },
+            {
+              "task": "Suspension / fork check",
+              "interval": "Every 5,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "No engine oil, spark plugs, clutch, or air filter. Service every 5,000 km is usage-based. Ather recommends daily charging to 80–90% and avoiding deep discharge. Book via Ather app."
+        },
+        {
+          "name": "Rizta",
+          "cc": 0,
+          "type": "Electric Scooter",
+          "cooling": "Liquid",
+          "chain": false,
+          "maintenance": [
+            {
+              "task": "Periodic maintenance check",
+              "interval": "Every 5,000 km or 1 year",
+              "type": "motor",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every 5,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Battery health diagnostic",
+              "interval": "Every 5,000 km",
+              "type": "battery",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            },
+            {
+              "task": "OTA software update",
+              "interval": "As available",
+              "type": "software",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Family-oriented electric scooter. Spacious boot, comfortable ride. Same 5,000 km service interval as 450 range. No traditional engine maintenance."
+        }
+      ]
+    },
+    {
+      "id": "benelli",
+      "name": "Benelli (DSK/Adishwar)",
+      "origin": "India",
+      "color": "#37474f",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Imperiale 400",
+          "cc": 374,
+          "type": "Retro",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "600 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 10,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 500 km and after every wash",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Air-cooled SOHC single. 10W-40 semi-synthetic. Chain: lube every 500 km and after every rain/wash — strict Benelli spec. Warranty: 4 years/50,000 km."
+        },
+        {
+          "name": "TRK 502 / TRK 502X",
+          "cc": 499,
+          "type": "Adventure",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "500–1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 10,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 500 km and after wash",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "499 cc parallel twin, LC. 10W-40 semi-synthetic. Chain lube every 500 km is Benelli's spec for all models. TRK 502X adds off-road capability."
+        },
+        {
+          "name": "502C / Leoncino 500",
+          "cc": 499,
+          "type": "Cruiser / Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + filter change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 10,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 500 km and after wash",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Same 499 cc LC twin platform. All Benelli 500-series bikes share same service schedule. 10W-40 recommended."
+        }
+      ]
+    },
+    {
+      "id": "bmw",
+      "name": "BMW Motorrad",
+      "origin": "India",
+      "color": "#0d47a1",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "G 310 R",
+          "cc": 313,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "500–1,200 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "10,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant (no specified change interval — monitor level)",
+              "interval": "Top up as needed",
+              "type": "cooling",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 20,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Major service (throttle, steering, suspension)",
+              "interval": "Every 20,000 km",
+              "type": "engine",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Made with TVS in India. 10,000 km oil service interval — widest in its class in India. BMW Shell 10W-40 recommended. 10W-50 for track days. Major service every 40,000 km includes steering bearings."
+        },
+        {
+          "name": "G 310 GS",
+          "cc": 313,
+          "type": "Adventure",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "500–1,200 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "10,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 20,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter (off-road use)",
+              "interval": "More frequent when ridden off-road",
+              "type": "filter",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Same engine as G 310 R. Wider bars, more suspension travel, spoked wheels. 10,000 km service interval is a major advantage. BMW LL-04 or Shell 10W-40."
+        },
+        {
+          "name": "F 900 R / F 900 XR",
+          "cc": 895,
+          "type": "Naked / Sports Tourer",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + filter change",
+              "interval": "10,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 3 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km (parallel twin)",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "895 cc parallel twin. BMW LL-04 fully synthetic. Flagship middleweight in India. Valve checks at 10,000 km. Service at BMW Motorrad dealer only for warranty."
+        },
+        {
+          "name": "S 1000 R / S 1000 RR",
+          "cc": 999,
+          "type": "Supernaked / Superbike",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + filter change",
+              "interval": "10,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 3 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Timing chain check",
+              "interval": "Inspect every 20,000 km",
+              "type": "timing",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Inline-4 superbike. BMW LL-04 10W-60 fully synthetic. Track riders: shorten oil interval to 5,000 km. ABS / Dynamic Traction Control software — update regularly."
+        }
+      ]
+    },
+    {
+      "id": "cfmoto",
+      "name": "CFMoto",
+      "origin": "India",
+      "color": "#00695c",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "300NK",
+          "cc": 292,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 10,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "LC single. 10W-40 semi-synthetic. Good entry-level naked. Reduce service interval by 50% in severe conditions (dusty/off-road)."
+        },
+        {
+          "name": "450MT / 450NK",
+          "cc": 449,
+          "type": "ADV / Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "6,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 12,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "LC parallel twin. 10W-40 fully synthetic. Excellent value ADV. Pierer Mobility (KTM parent) partnership ensures quality."
+        },
+        {
+          "name": "650MT / 650NK",
+          "cc": 649,
+          "type": "ADV / Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + filter change",
+              "interval": "6,000 km or 6 months (minor) / 12,000 km (major)",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter clean/replace",
+              "interval": "Clean 12,000 km / Replace 24,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 42,000 km (DOHC twin — very wide interval)",
+              "type": "engine",
+              "priority": "low"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "649 cc LC DOHC parallel twin. Valve check at 42,000 km is one of the widest intervals anywhere. 10W-40 semi-synthetic. Great value against Kawasaki Versys 650."
+        }
+      ]
+    },
+    {
+      "id": "ducati",
+      "name": "Ducati",
+      "origin": "India",
+      "color": "#b71c1c",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Scrambler 400",
+          "cc": 399,
+          "type": "Scrambler",
+          "cooling": "Air+Oil",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "15,000 km or 1 year (Desmo single)",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 30,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 30,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Desmodromic valve service",
+              "interval": "Every 15,000 km — specialist job",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Desmodromic valve system requires specialist service — no valve springs, driven close and open mechanically. Do NOT attempt DIY without Ducati training. Service cost significantly higher than rivals. 10W-50 fully synthetic."
+        },
+        {
+          "name": "Scrambler 800 / Icon / Nightshift",
+          "cc": 803,
+          "type": "Scrambler",
+          "cooling": "Air+Oil",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "15,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 30,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 30,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Desmodromic valve service",
+              "interval": "Every 15,000 km — Ducati specialist",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "L-twin Desmodue. Same Desmo valve service requirement. 10W-50. Coolant check if oil-cooler variant. Budget ₹10,000–15,000 per service for Desmo work."
+        },
+        {
+          "name": "Monster 937",
+          "cc": 937,
+          "type": "Street Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "15,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 30,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 30,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Desmodromic valve service",
+              "interval": "Every 15,000 km — Ducati specialist",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 3 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "LC Testastretta 11° Desmo twin. Ducati's most popular model globally. 10W-50 fully synthetic. Desmo service is approximately ₹15,000–25,000 at authorised dealer."
+        }
+      ]
+    },
+    {
+      "id": "harley",
+      "name": "Harley-Davidson",
+      "origin": "India",
+      "color": "#ff6f00",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "X440 (Denim / Vivid / S)",
+          "cc": 440,
+          "type": "Streetfighter",
+          "cooling": "Air+Oil",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + oil strainer change",
+              "interval": "10,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 20,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 20,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check (SOHC single)",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years or 30,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork (KYB USD) oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Built by Hero MotoCorp for Indian market. 440 cc air-oil cooled SOHC single. 10W-40 or 15W-50 fully synthetic. KYB inverted forks. Dual-channel ABS. Wider service window than typical Indians/Harleys."
+        }
+      ]
+    },
+    {
+      "id": "husqvarna",
+      "name": "Husqvarna (Bajaj-KTM)",
+      "origin": "India",
+      "color": "#4a148c",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Svartpilen 250 / Vitpilen 250",
+          "cc": 248.8,
+          "type": "Scrambler / Café Racer",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "7,500 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace every 4 years",
+              "type": "cooling",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 7,500 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 15,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 15,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "KTM 250 cc platform, Husqvarna tuning. Shares service schedule with KTM 250 Duke. 10W-50 fully synthetic. Scandinavia-meets-India styling."
+        },
+        {
+          "name": "Svartpilen 401 / Vitpilen 401",
+          "cc": 373,
+          "type": "Scrambler / Café Racer",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "7,500 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace every 4 years",
+              "type": "cooling",
+              "priority": "medium"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 7,500 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 15,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 15,000 km (DOHC — shim adjustment)",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "WP fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "KTM 390 platform, Husqvarna styling. DOHC valve adjustment requires shim removal — workshop recommended. 10W-50 fully synthetic. WP Apex suspension."
+        }
+      ]
+    },
+    {
+      "id": "jawa",
+      "name": "Jawa (Classic Legends)",
+      "origin": "India",
+      "color": "#795548",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Jawa 42 / 42 Bobber / 42 FJ",
+          "cc": 293,
+          "type": "Retro / Bobber",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter change",
+              "interval": "6,000 km (2nd service) / 12,000 km (3rd) / 18,000 km (4th)",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "18,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000–2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years (at 18,000 km service)",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 12,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Steering ball race kit inspect",
+              "interval": "At 18,000 km service",
+              "type": "suspension",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain sprocket kit inspect",
+              "interval": "At 18,000 km service",
+              "type": "chain",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Classic Legends (Mahindra). LC single, 10W-40. Service costs: ~₹1,500 (1st), ~₹1,300 (2nd), ~₹2,800 (3rd), ~₹5,300 (4th at 18,000 km). 4 year/50,000 km warranty. 42 Bobber adds assist-slipper clutch."
+        },
+        {
+          "name": "Jawa 350 / Perak",
+          "cc": 293,
+          "type": "Classic / Bobber",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil change",
+              "interval": "6,000 km then every 6,000 km",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 18,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000–2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            }
+          ],
+          "notes": "Perak is single-seater bobber. Same LC engine platform. Classic retro Czech heritage meets Mahindra reliability. 10W-40 recommended."
+        }
+      ]
+    },
+    {
+      "id": "kawasaki",
+      "name": "Kawasaki India",
+      "origin": "India",
+      "color": "#1b5e20",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Ninja 300 / Z300",
+          "cc": 296,
+          "type": "Sport/Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + filter change",
+              "interval": "12,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 3 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 24,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 12,000 km (parallel twin DOHC)",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Parallel twin LC DOHC. Very wide 12,000 km service interval. Fully synthetic 10W-40. Last imported units — replaced by Ninja 400."
+        },
+        {
+          "name": "Ninja 400 / Z400",
+          "cc": 399,
+          "type": "Sport/Naked",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + filter change",
+              "interval": "12,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 3 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 24,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 24,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 24,000 km (parallel twin DOHC)",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Best-in-class parallel twin for learners. Very wide valve service interval. 10W-40 fully synthetic. One of the best beginner bikes globally."
+        },
+        {
+          "name": "Z650 / Ninja 650 / Versys 650",
+          "cc": 649,
+          "type": "Naked/Sport/ADV",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + filter change",
+              "interval": "9,600 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 3 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 24,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 24,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 26,400 km",
+              "type": "engine",
+              "priority": "low"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 30,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Popular parallel twin platform. One of the most generous valve service intervals in the segment. 10W-40 fully synthetic. Versys: chain lube more frequently on tours."
+        }
+      ]
+    },
+    {
+      "id": "keeway",
+      "name": "Keeway",
+      "origin": "India",
+      "color": "#37474f",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "SR125 / Vieste 300",
+          "cc": 125,
+          "type": "Sport/Scooter",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "3,000 km or 3 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000–2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every 5,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Budget Italian-branded Chinese motorcycles. 10W-40 semi-synthetic. Entry-level ownership. Limited service network — verify dealer availability in your city before purchase."
+        }
+      ]
+    },
+    {
+      "id": "mahindra",
+      "name": "Mahindra Two Wheelers",
+      "origin": "India",
+      "color": "#e53935",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Mojo 300",
+          "cc": 294.7,
+          "type": "Sports Tourer",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Oil filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 10,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 10,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000–2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 10,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Powerful LC single with DOHC, 4-valve. 21 L fuel tank. 10W-40 semi-synthetic. Mojo has a cult following for highway touring. Limited production."
+        }
+      ]
+    },
+    {
+      "id": "okinawa",
+      "name": "Okinawa Autotech",
+      "origin": "India",
+      "color": "#81c784",
+      "isElectric": true,
+      "models": [
+        {
+          "name": "Praise Pro / iPraise+ / OKHI 90",
+          "cc": 0,
+          "type": "Electric Scooter",
+          "cooling": "Air",
+          "chain": false,
+          "maintenance": [
+            {
+              "task": "Periodic service check",
+              "interval": "Every 3,000–5,000 km or 6 months",
+              "type": "motor",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad/disc inspect",
+              "interval": "Every 3,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Battery health check",
+              "interval": "Every service",
+              "type": "battery",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            },
+            {
+              "task": "Charger & port inspect",
+              "interval": "Every 3,000 km",
+              "type": "electrical",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Domestic EV brand. No engine oil, spark plugs, or gearbox. Battery warranty varies by model. Service at Okinawa-authorised centres. Avoid deep discharge below 20%."
+        }
+      ]
+    },
+    {
+      "id": "ola",
+      "name": "Ola Electric",
+      "origin": "India",
+      "color": "#81c784",
+      "isElectric": true,
+      "models": [
+        {
+          "name": "S1 / S1 Pro / S1 Air / S1 X",
+          "cc": 0,
+          "type": "Electric Scooter",
+          "cooling": "Liquid (motor)",
+          "chain": false,
+          "maintenance": [
+            {
+              "task": "Periodic service check",
+              "interval": "Every 5,000 km or 1 year (OEM recommendation)",
+              "type": "motor",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every 5,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Battery health diagnostic (BMS check)",
+              "interval": "Every 5,000 km",
+              "type": "battery",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check (tubeless)",
+              "interval": "Before every ride — 36 PSI front / 40 PSI rear",
+              "type": "tyres",
+              "priority": "high"
+            },
+            {
+              "task": "OTA software update",
+              "interval": "Accept when prompted — mandatory for performance",
+              "type": "software",
+              "priority": "high"
+            },
+            {
+              "task": "Charger / cable inspect",
+              "interval": "Every 3 months",
+              "type": "electrical",
+              "priority": "medium"
+            }
+          ],
+          "notes": "India's #1 selling EV scooter by volume. No traditional engine maintenance. OTA updates improve range/performance. Ola Hypercharger at select stations. 3-year vehicle warranty / 8-year battery. Book service on Ola app."
+        },
+        {
+          "name": "S1 Gen 3 / Roadster / Gig",
+          "cc": 0,
+          "type": "Electric Scooter/Bike",
+          "cooling": "Liquid (motor)",
+          "chain": false,
+          "maintenance": [
+            {
+              "task": "Periodic service check",
+              "interval": "Every 5,000 km or 1 year",
+              "type": "motor",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every 5,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Battery health diagnostic",
+              "interval": "Every 5,000 km",
+              "type": "battery",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            },
+            {
+              "task": "OTA update",
+              "interval": "Keep always updated",
+              "type": "software",
+              "priority": "high"
+            }
+          ],
+          "notes": "Gen 3 has improved range and performance. Roadster targets enthusiast market. All Ola EVs: charge regularly, avoid complete discharge. Accept OTA updates for best results."
+        }
+      ]
+    },
+    {
+      "id": "revolt",
+      "name": "Revolt Motors (RattanIndia)",
+      "origin": "India",
+      "color": "#81c784",
+      "isElectric": true,
+      "models": [
+        {
+          "name": "RV400 / RV400 BRZ",
+          "cc": 0,
+          "type": "Electric Motorcycle",
+          "cooling": "Air (motor)",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Periodic service check",
+              "interval": "Every 5,000 km or 6 months",
+              "type": "motor",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every 5,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Battery health check",
+              "interval": "Every 5,000 km",
+              "type": "battery",
+              "priority": "high"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 2,000 km (has chain drive)",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            },
+            {
+              "task": "OTA update",
+              "interval": "As available",
+              "type": "software",
+              "priority": "medium"
+            }
+          ],
+          "notes": "India's first AI-enabled electric motorcycle. Has chain drive — unlike most EVs. 8-year / 1,50,000 km battery warranty. MyRevolt app for service booking. No engine oil. 75–150 km claimed range depending on mode."
+        }
+      ]
+    },
+    {
+      "id": "suzuki",
+      "name": "Suzuki Motorcycle India",
+      "origin": "India",
+      "color": "#b71c1c",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Gixxer 155 / Gixxer SF 155",
+          "cc": 155,
+          "type": "Naked/Faired",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "6,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 6,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years (DOT 4)",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            }
+          ],
+          "notes": "Suzuki extended service interval from 4,000 km to 6,000 km. Air-cooled FI. 10W-40 SAE API SL. Low maintenance cost. Chain lube every 1,000 km."
+        },
+        {
+          "name": "Gixxer 250 / Gixxer SF 250",
+          "cc": 249,
+          "type": "Naked/Faired",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 4 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 5,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Air-cooled 250 cc single. 10W-40 semi-synthetic. Competitive with R3 and MT-03 on pricing."
+        },
+        {
+          "name": "V-Strom 250 SX",
+          "cc": 249,
+          "type": "Adventure",
+          "cooling": "Air",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil change",
+              "interval": "5,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter service",
+              "interval": "Clean 6,000 km / Replace 12,000 km",
+              "type": "filter",
+              "priority": "high"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 5,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Single-cylinder V-Strom for India. Large 17.3 L tank for touring. Air-cooled. 10W-40."
+        },
+        {
+          "name": "V-Strom 800 DE / GSX-8R / Hayabusa",
+          "cc": 776,
+          "type": "ADV / Superbike",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + filter change",
+              "interval": "6,000 km or 6 months",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 3 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 12,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 24,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 24,000 km (parallel twin — wider interval)",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 30,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Hayabusa: 1,340 cc inline-4 — service every 6,000 km still. Suzuki 10W-40 full synthetic for all three. V-Strom 800 DE has long valve intervals — a major ownership advantage."
+        }
+      ]
+    },
+    {
+      "id": "triumph",
+      "name": "Triumph Motorcycles India",
+      "origin": "India",
+      "color": "#1a237e",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Speed 400",
+          "cc": 398,
+          "type": "Roadster",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "~1,000 km (dealer mandatory)",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter + strainer change",
+              "interval": "16,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 32,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 32,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 32,000 km (DLC finger-follower valvetrain)",
+              "type": "engine",
+              "priority": "low"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Class-leading 16,000 km service interval. Finger-follower DLC-coated valvetrain allows 32,000 km valve check. Dealer software update mandatory at each service. 10W-40 fully synthetic."
+        },
+        {
+          "name": "Scrambler 400 X",
+          "cc": 398,
+          "type": "Scrambler",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Break-in service",
+              "interval": "~1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil + filter + strainer change",
+              "interval": "16,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 32,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 32,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 32,000 km",
+              "type": "engine",
+              "priority": "low"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            }
+          ],
+          "notes": "Same 398 cc engine as Speed 400. 19-inch front wheel, off-road protection. Same 16,000 km service schedule. Off-road: check chain more frequently."
+        },
+        {
+          "name": "Tiger Sport 660",
+          "cc": 660,
+          "type": "Sports ADV",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "Engine oil + filter change",
+              "interval": "16,000 km or 1 year",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant replace",
+              "interval": "Every 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 32,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 32,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check (inline triple)",
+              "interval": "Every 32,000 km with cam timing check",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Fork oil replace",
+              "interval": "Every 20,000 km",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "660 cc inline triple. 10W-40 fully synthetic. Same 16,000 km oil interval. Cam timing check at valve service. Excellent Sport-ADV at accessible price."
+        }
+      ]
+    },
+    {
+      "id": "vida",
+      "name": "Vida (Hero Electric)",
+      "origin": "India",
+      "color": "#81c784",
+      "isElectric": true,
+      "models": [
+        {
+          "name": "Vida V1 Pro / V1 Plus / V2",
+          "cc": 0,
+          "type": "Electric Scooter",
+          "cooling": "Air",
+          "chain": false,
+          "maintenance": [
+            {
+              "task": "Periodic service check",
+              "interval": "Every 5,000 km or 1 year",
+              "type": "motor",
+              "priority": "high"
+            },
+            {
+              "task": "Brake pad inspect",
+              "interval": "Every 5,000 km",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Battery health diagnostic",
+              "interval": "Every 5,000 km",
+              "type": "battery",
+              "priority": "high"
+            },
+            {
+              "task": "Tyre pressure check",
+              "interval": "Before every ride",
+              "type": "tyres",
+              "priority": "high"
+            },
+            {
+              "task": "OTA software update",
+              "interval": "As available via Vida app",
+              "type": "software",
+              "priority": "medium"
+            },
+            {
+              "task": "Hub motor check",
+              "interval": "Every 10,000 km",
+              "type": "motor",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Hero's EV brand — backed by Hero MotoCorp's 6,000+ service network. No engine oil, spark plugs, or clutch. Hub motor design. 3-year/40,000 km vehicle warranty. Vida app for connectivity and OTA."
+        }
+      ]
+    },
+    {
+      "id": "yezdi",
+      "name": "Yezdi (Classic Legends)",
+      "origin": "India",
+      "color": "#4e342e",
+      "isElectric": false,
+      "models": [
+        {
+          "name": "Yezdi Roadster",
+          "cc": 293,
+          "type": "Retro Roadster",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil change",
+              "interval": "6,000 km then every 6,000 km",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 18,000 km",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000–2,000 km",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 12,000 km",
+              "type": "engine",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Shares platform with Jawa 42. Same LC 293 cc engine. All Jawa/Yezdi: service costs ₹1,500/₹1,300/₹2,800/₹5,300 at 1k/6k/12k/18k km. 4-year/50,000 km warranty."
+        },
+        {
+          "name": "Yezdi Scrambler",
+          "cc": 293,
+          "type": "Scrambler",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil change",
+              "interval": "6,000 km then every 6,000 km",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 18,000 km (more off-road)",
+              "type": "filter",
+              "priority": "medium"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km (more off-road)",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 12,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Larger rear sprocket check",
+              "interval": "All Yezdi OBD2 updates include sprocket changes",
+              "type": "chain",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Off-road use: inspect chain and air filter more frequently. Rear sprocket enlarged in OBD2 update for better acceleration. Same platform as Roadster."
+        },
+        {
+          "name": "Yezdi Adventure",
+          "cc": 293,
+          "type": "Adventure",
+          "cooling": "Liquid",
+          "chain": true,
+          "maintenance": [
+            {
+              "task": "First service",
+              "interval": "1,000 km",
+              "type": "engine",
+              "priority": "high"
+            },
+            {
+              "task": "Engine oil change",
+              "interval": "6,000 km then every 6,000 km",
+              "type": "oil",
+              "priority": "high"
+            },
+            {
+              "task": "Coolant check / replace",
+              "interval": "Check every service / Replace 2 years",
+              "type": "cooling",
+              "priority": "high"
+            },
+            {
+              "task": "Air filter replace",
+              "interval": "Every 12,000 km (more frequently off-road)",
+              "type": "filter",
+              "priority": "high"
+            },
+            {
+              "task": "Spark plug replace",
+              "interval": "Every 12,000 km",
+              "type": "ignition",
+              "priority": "medium"
+            },
+            {
+              "task": "Chain lube & adjust",
+              "interval": "Every 1,000 km road / 500 km off-road",
+              "type": "chain",
+              "priority": "high"
+            },
+            {
+              "task": "Brake fluid replace",
+              "interval": "Every 2 years",
+              "type": "brake",
+              "priority": "high"
+            },
+            {
+              "task": "Valve clearance check",
+              "interval": "Every 12,000 km",
+              "type": "engine",
+              "priority": "medium"
+            },
+            {
+              "task": "Steering ball race inspect",
+              "interval": "At 18,000 km service",
+              "type": "suspension",
+              "priority": "medium"
+            }
+          ],
+          "notes": "Most capable of the Yezdi trio for off-road. Same 293 cc LC engine. Larger fuel tank. 10W-40 semi-synthetic recommended."
+        }
+      ]
+    }
+  ],
+  "typeColors": {
+    "oil": "#e07b39",
+    "filter": "#4a90d9",
+    "chain": "#7b5ea7",
+    "brake": "#c0392b",
+    "engine": "#27ae60",
+    "cooling": "#16a085",
+    "suspension": "#8e44ad",
+    "ignition": "#f39c12",
+    "fuel": "#e67e22",
+    "electrical": "#2980b9",
+    "tyres": "#95a5a6",
+    "battery": "#00897b",
+    "motor": "#43a047",
+    "software": "#1565c0",
+    "timing": "#ad1457"
+  },
+  "priorityBadge": {
+    "high": {
+      "bg": "#fdecea",
+      "color": "#c0392b",
+      "label": "High"
+    },
+    "medium": {
+      "bg": "#fef9e7",
+      "color": "#b7770d",
+      "label": "Med"
+    },
+    "low": {
+      "bg": "#eaf6ea",
+      "color": "#1e8449",
+      "label": "Low"
+    }
+  }
+}

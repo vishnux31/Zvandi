@@ -1,0 +1,5 @@
+package com.mybike.mybike
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()

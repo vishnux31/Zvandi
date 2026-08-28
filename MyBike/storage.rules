@@ -1,0 +1,11 @@
+rules_version = '2';
+
+// Photos/attachments are stored under users/{uid}/... and are private to that
+// signed-in user.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /users/{userId}/{allPaths=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

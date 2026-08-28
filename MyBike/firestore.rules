@@ -1,0 +1,22 @@
+rules_version = '2';
+
+// All MyBike user data lives under users/{uid}/... so each signed-in user can
+// only ever read or write their own documents.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Global bike brand/model reference data: readable by any signed-in user,
+    // never writable from the client (seeded server-side).
+    match /brands/{doc} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+    match /models/{doc} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+  }
+}

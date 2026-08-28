@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "901311202194",
+    "project_id": "mybike-865b8",
+    "storage_bucket": "mybike-865b8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901311202194:android:786b6005c405ca65f4774b",
+        "android_client_info": {
+          "package_name": "com.mybike.mybike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901311202194-k79c48uqigeanom0vh7pr2msg87c8suv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe8rHmDOCo6H4mnKDMJO6FvOr9fIXn5LA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901311202194-k79c48uqigeanom0vh7pr2msg87c8suv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,188 @@
+[
+  {
+    "id": "hero",
+    "name": "Hero",
+    "models": [
+      "Splendor Plus", "Splendor Plus XTEC", "Super Splendor", "HF Deluxe", "HF 100",
+      "Passion Pro", "Passion Plus XTEC", "Glamour", "Glamour XTEC", "Xtreme 125R",
+      "Xtreme 160R", "Xtreme 160R 4V", "Xtreme 200S 4V", "Xpulse 200 4V", "Xpulse 210",
+      "Karizma XMR", "Mavrick 440", "Destini 125", "Maestro Edge 110", "Maestro Edge 125",
+      "Pleasure Plus", "Xoom 110", "Xoom 125", "Xoom 160"
+    ]
+  },
+  {
+    "id": "honda",
+    "name": "Honda",
+    "models": [
+      "Shine 100", "CB Shine", "SP 125", "Livo", "CD 110 Dream", "Unicorn", "SP 160",
+      "Hornet 2.0", "CB200X", "CB300R", "CB300F", "CB350", "H'ness CB350", "CB350RS",
+      "NX200", "CBR150R", "CBR250R", "CBR650R", "X-Blade", "Activa 6G", "Activa 125",
+      "Activa 110", "Dio 110", "Dio 125", "Grazia 125"
+    ]
+  },
+  {
+    "id": "bajaj",
+    "name": "Bajaj",
+    "models": [
+      "Platina 100", "Platina 110", "CT 100", "CT 110X", "Pulsar 125", "Pulsar 150",
+      "Pulsar N150", "Pulsar NS125", "Pulsar NS160", "Pulsar N160", "Pulsar NS200",
+      "Pulsar RS200", "Pulsar 220F", "Pulsar N250", "Pulsar F250", "Pulsar NS400Z",
+      "Avenger Street 160", "Avenger Cruise 220", "Dominar 250", "Dominar 400",
+      "Freedom 125 CNG", "Chetak"
+    ]
+  },
+  {
+    "id": "tvs",
+    "name": "TVS",
+    "models": [
+      "Star City Plus", "Radeon", "Sport", "Raider 125", "Apache RTR 160",
+      "Apache RTR 160 4V", "Apache RTR 180", "Apache RTR 200 4V", "Apache RR 310",
+      "Ronin", "Jupiter", "Jupiter 125", "NTORQ 125", "Scooty Pep Plus", "Zest 110",
+      "XL100", "iQube", "Apache RTX 300"
+    ]
+  },
+  {
+    "id": "royal-enfield",
+    "name": "Royal Enfield",
+    "models": [
+      "Bullet 350", "Classic 350", "Hunter 350", "Meteor 350", "Goan Classic 350",
+      "Himalayan 411", "Himalayan 450", "Scram 411", "Scram 440", "Guerrilla 450",
+      "Interceptor 650", "Continental GT 650", "Super Meteor 650", "Shotgun 650",
+      "Classic 650", "Bear 650"
+    ]
+  },
+  {
+    "id": "yamaha",
+    "name": "Yamaha",
+    "models": [
+      "FZ FI", "FZ-S FI", "FZ-X", "FZ25", "FZS 25", "MT-15", "MT-03", "YZF-R15 V4",
+      "R15M", "YZF-R3", "Fascino 125", "RayZR 125", "Aerox 155"
+    ]
+  },
+  {
+    "id": "suzuki",
+    "name": "Suzuki",
+    "models": [
+      "Gixxer", "Gixxer SF", "Gixxer 250", "Gixxer SF 250", "Intruder 150",
+      "V-Strom SX 250", "Hayabusa", "GSX-R1000R", "Katana", "Access 125",
+      "Burgman Street 125", "Avenis 125"
+    ]
+  },
+  {
+    "id": "ktm",
+    "name": "KTM",
+    "models": [
+      "125 Duke", "200 Duke", "250 Duke", "390 Duke", "RC 125", "RC 200", "RC 390",
+      "250 Adventure", "390 Adventure", "390 Adventure X", "390 SMC R"
+    ]
+  },
+  {
+    "id": "jawa",
+    "name": "Jawa",
+    "models": ["Jawa 42", "Jawa 42 Bobber", "Jawa 350", "Jawa Perak", "Jawa 42 FJ"]
+  },
+  {
+    "id": "yezdi",
+    "name": "Yezdi",
+    "models": ["Roadster", "Scrambler", "Adventure"]
+  },
+  {
+    "id": "mahindra",
+    "name": "Mahindra",
+    "models": ["Mojo 300"]
+  },
+  {
+    "id": "harley-davidson",
+    "name": "Harley-Davidson",
+    "models": [
+      "X440", "Nightster", "Sportster S", "Fat Boy", "Street Bob", "Forty-Eight",
+      "Iron 883", "Road Glide", "Fat Bob"
+    ]
+  },
+  {
+    "id": "kawasaki",
+    "name": "Kawasaki",
+    "models": [
+      "W175", "Ninja 300", "Ninja 500", "Ninja 650", "Ninja ZX-10R", "Z650", "Z900",
+      "Versys 650", "Eliminator", "KLX 230"
+    ]
+  },
+  {
+    "id": "triumph",
+    "name": "Triumph",
+    "models": [
+      "Speed 400", "Scrambler 400 X", "Trident 660", "Speed Twin 900",
+      "Bonneville T100", "Bonneville T120", "Tiger 900", "Tiger Sport 660",
+      "Rocket 3", "Street Triple 765"
+    ]
+  },
+  {
+    "id": "bmw",
+    "name": "BMW Motorrad",
+    "models": [
+      "G 310 R", "G 310 RR", "G 310 GS", "F 900 R", "R 1250 GS", "R 1300 GS",
+      "S 1000 RR", "F 850 GS"
+    ]
+  },
+  {
+    "id": "ducati",
+    "name": "Ducati",
+    "models": [
+      "Panigale V2", "Panigale V4", "Monster", "Scrambler", "Multistrada V4",
+      "Diavel V4", "Streetfighter V4"
+    ]
+  },
+  {
+    "id": "benelli",
+    "name": "Benelli",
+    "models": [
+      "TNT 300", "302R", "Leoncino 250", "Leoncino 500", "Imperiale 400",
+      "TRK 502", "TRK 502X", "502C"
+    ]
+  },
+  {
+    "id": "aprilia",
+    "name": "Aprilia",
+    "models": ["SR 125", "SR 160", "SXR 160", "RS 457", "Tuono 457", "RSV4", "Tuono 660"]
+  },
+  {
+    "id": "husqvarna",
+    "name": "Husqvarna",
+    "models": ["Svartpilen 125", "Svartpilen 250", "Vitpilen 250", "Svartpilen 401"]
+  },
+  {
+    "id": "ola-electric",
+    "name": "Ola Electric",
+    "models": ["S1 Pro", "S1 Air", "S1 X", "S1 X Plus", "Roadster X"]
+  },
+  {
+    "id": "ather",
+    "name": "Ather",
+    "models": ["450X", "450S", "450 Apex", "Rizta"]
+  },
+  {
+    "id": "vida",
+    "name": "Vida",
+    "models": ["V1 Plus", "V1 Pro", "VX2"]
+  },
+  {
+    "id": "revolt",
+    "name": "Revolt",
+    "models": ["RV400", "RV400 BRZ", "RV1", "RV1 Plus"]
+  },
+  {
+    "id": "keeway",
+    "name": "Keeway",
+    "models": ["K300 N", "SR250", "Vieste 300", "V302C"]
+  },
+  {
+    "id": "cfmoto",
+    "name": "CFMoto",
+    "models": ["300NK", "650NK", "650MT", "300SR"]
+  },
+  {
+    "id": "okinawa",
+    "name": "Okinawa",
+    "models": ["Praise Pro", "iPraise Plus", "Okhi-90", "Lite"]
+  }
+]

@@ -1,0 +1,6 @@
+.cursor/
+*.log
+.DS_Store
+Thumbs.db
+*.zip
+analyze_out.txt
