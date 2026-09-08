@@ -7,7 +7,6 @@ import 'package:uuid/uuid.dart';
 import '../../app/colors.dart';
 import '../../core/formatters.dart';
 import '../../core/units.dart';
-import '../../data/models/bike.dart';
 import '../../data/models/enums.dart';
 import '../../data/models/fuel_entry.dart';
 import '../../data/models/maintenance_item.dart';

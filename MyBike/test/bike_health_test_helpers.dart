@@ -17,6 +17,10 @@ ReminderInfo reminder({
     bikeId: bike.id,
     name: type.label,
     type: type,
+    // Usage is supplied directly by the caller, so these only need to be
+    // valid — they don't influence the ReminderInfo built below.
+    lastServiceOdometerKm: 0,
+    lastServiceDate: DateTime(2024),
     createdAt: DateTime(2024),
   );
 
