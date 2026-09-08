@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:hive/hive.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
+import '../data/local_store.dart';
 import 'reminder_service.dart';
 
 /// Thin, defensive wrapper around flutter_local_notifications.
@@ -71,13 +73,27 @@ class NotificationService {
         iOS: DarwinNotificationDetails(),
       );
 
-  /// Re-schedules date-based reminders for all items with an upcoming due date.
+  /// Re-schedules date-based reminders for all items with an upcoming due
+  /// date, honouring the Settings > Vehicle Notifications toggles: overdue
+  /// items are gated by "Critical Alerts", everything else by "Maintenance
+  /// Reminders".
   Future<void> syncReminders(List<ReminderInfo> reminders) async {
     if (!_ready) return;
     try {
       await _plugin.cancelAll();
+
+      final settings = Hive.box(Boxes.settings);
+      final criticalEnabled =
+          settings.get('criticalAlertsEnabled', defaultValue: true) as bool;
+      final maintenanceEnabled =
+          settings.get('maintenanceRemindersEnabled', defaultValue: true) as bool;
+
       final now = DateTime.now();
       for (final r in reminders) {
+        final isCritical = r.status == ReminderStatus.overdue;
+        if (isCritical && !criticalEnabled) continue;
+        if (!isCritical && !maintenanceEnabled) continue;
+
         final due = r.item.nextDueDate;
         if (due == null) continue;
         // Notify a week before the due date (or now if already within a week).

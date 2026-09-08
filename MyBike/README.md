@@ -159,3 +159,36 @@ Remediation work tracked against `Zvandi_UAT_Plan.md`, committed incrementally o
   (`recentActivityProvider`), most recent first, instead of a scripted
   ride/diagnostic-scan timeline — this app has no trip-tracking or
   diagnostic-scan data source.
+
+### Phase 4 — Fuel tab real chart
+- Replaced `_SparklineChart`/`_SparklinePainter` (5 invented points) with a
+  real `fl_chart` `LineChart` (`_EfficiencyTrendChart`) bound to per-fill-up
+  km/L (or mpg) values derived from consecutive fuel-up odometer deltas.
+  Shows an honest "log a few more fuel-ups" empty state below 2 data
+  points instead of a fabricated curve.
+- Dropped the "Target Peak (+4%)" label entirely (per user decision) —
+  replaced the Initial-Run/Target/Now row with real First/Latest economy
+  values from the same series.
+
+### Phase 5 — Settings toggles wired
+- `NotificationService.syncReminders` now actually honours the "Critical
+  Alerts" / "Maintenance Reminders" toggles (previously saved to Hive but
+  never read) — overdue items are gated by Critical Alerts, everything
+  else by Maintenance Reminders. Toggling either resyncs notifications
+  immediately.
+- Removed the "Security & Movement" toggle (per user decision) — no
+  GPS/telemetry hardware feature exists or is planned to back it.
+
+### Phase 6 — Regression pass
+- Updated `test/fuel_tracker_ui_test.dart`, `test/home_tab_ui_test.dart`,
+  `test/home_screen_navigation_test.dart` and `test/settings_tab_ui_test.dart`
+  for the UI/behavior changes above (removed dialog → real routing,
+  fabricated strings → honest empty states, dropped Administrative/Security
+  rows). Not executed in this environment (no Flutter SDK available) —
+  please run `flutter test` before merging.
+- Found a pre-existing gap unrelated to this plan: `settings_tab_ui_test.dart`
+  (and potentially others) read Hive-backed providers
+  (`bikesProvider`/`settingsProvider`) without a test-time Hive
+  initialization, which will throw `HiveError: Box not found` when actually
+  run. Worth a follow-up to add a `flutter_test_config.dart`/`setUpAll`
+  that initializes Hive with a temp directory for the suite.

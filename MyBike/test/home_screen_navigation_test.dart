@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mybike/features/home/home_screen.dart';
 import 'package:mybike/providers/settings_provider.dart';
 import 'package:mybike/providers/app_providers.dart';
+import 'package:mybike/providers/home_insights_provider.dart';
 import 'package:mybike/providers/maintenance_schedule_provider.dart';
 import 'package:mybike/services/reminder_service.dart';
 import 'package:mybike/data/models/bike.dart';
@@ -38,6 +39,11 @@ void main() {
           garageSelectedBikeIdProvider.overrideWith((ref) => 'active-bike-id'),
           bikeByIdProvider('active-bike-id').overrideWithValue(testBike),
           remindersForBikeProvider('active-bike-id').overrideWithValue([]),
+          // HomeTab (built eagerly inside the bottom-nav IndexedStack) now
+          // reads these — see home_tab_ui_test.dart.
+          fuelEconomyTrendProvider('active-bike-id').overrideWithValue(null),
+          upcomingExpensesProvider('active-bike-id').overrideWithValue([]),
+          recentActivityProvider('active-bike-id').overrideWithValue([]),
         ],
         child: const MaterialApp(
           home: HomeScreen(),
@@ -45,9 +51,10 @@ void main() {
       ),
     );
 
-    // Verify global TopAppBar displays name and avatar
-    expect(find.text('Good Morning'), findsOneWidget);
-    expect(find.text('Rossi'), findsOneWidget); // Default rider profile name
+    // Verify global TopAppBar displays name and avatar. The greeting is now
+    // time-of-day-dependent (UAT Phase 3) instead of always "Good Morning".
+    expect(find.textContaining('Good '), findsOneWidget);
+    expect(find.text('Rider'), findsOneWidget); // Default rider profile name (no "Rossi" fallback)
     expect(find.byKey(const ValueKey('bike_selector_dropdown')), findsOneWidget);
     expect(find.byKey(const ValueKey('bell_notification_icon')), findsOneWidget);
 
@@ -106,6 +113,12 @@ void main() {
           bikeByIdProvider('bike-two').overrideWithValue(bikeTwo),
           remindersForBikeProvider('bike-one').overrideWithValue([]),
           remindersForBikeProvider('bike-two').overrideWithValue([]),
+          fuelEconomyTrendProvider('bike-one').overrideWithValue(null),
+          fuelEconomyTrendProvider('bike-two').overrideWithValue(null),
+          upcomingExpensesProvider('bike-one').overrideWithValue([]),
+          upcomingExpensesProvider('bike-two').overrideWithValue([]),
+          recentActivityProvider('bike-one').overrideWithValue([]),
+          recentActivityProvider('bike-two').overrideWithValue([]),
         ],
         child: const MaterialApp(
           home: HomeScreen(),

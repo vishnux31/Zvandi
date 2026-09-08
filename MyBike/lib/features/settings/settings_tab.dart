@@ -10,7 +10,9 @@ import '../../data/models/enums.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/settings_provider.dart';
 import '../../services/auth_service.dart';
+import '../../services/notification_service.dart';
 import '../../services/pincode_service.dart';
+import '../../services/reminder_service.dart';
 
 class SettingsTab extends ConsumerStatefulWidget {
   const SettingsTab({super.key});
@@ -23,7 +25,6 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
   late String _tempUnit;
   late bool _criticalAlerts;
   late bool _maintenanceReminders;
-  late bool _securityMovement;
 
   @override
   void initState() {
@@ -32,7 +33,12 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
     _tempUnit = box.get('tempUnit', defaultValue: '°C') as String;
     _criticalAlerts = box.get('criticalAlertsEnabled', defaultValue: true) as bool;
     _maintenanceReminders = box.get('maintenanceRemindersEnabled', defaultValue: true) as bool;
-    _securityMovement = box.get('securityMovementEnabled', defaultValue: true) as bool;
+  }
+
+  /// Toggles take effect immediately: re-sync scheduled notifications so a
+  /// disabled channel actually stops firing without an app restart.
+  void _resyncNotifications() {
+    NotificationService.instance.syncReminders(ref.read(remindersProvider));
   }
 
   void _openRiderEditor() {
@@ -244,31 +250,23 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
                 children: [
                   _NotificationToggleRow(
                     title: "Critical Alerts",
-                    subtitle: "Brake failures, thermal warning metrics",
+                    subtitle: "Overdue maintenance items",
                     checked: _criticalAlerts,
                     onChanged: (val) {
                       setState(() => _criticalAlerts = val);
                       box.put('criticalAlertsEnabled', val);
+                      _resyncNotifications();
                     },
                   ),
                   const Divider(color: AppColors.outlineGray, height: 24),
                   _NotificationToggleRow(
                     title: "Maintenance Reminders",
-                    subtitle: "Predictive wear limits, general fluid scans",
+                    subtitle: "Upcoming service items, before they're due",
                     checked: _maintenanceReminders,
                     onChanged: (val) {
                       setState(() => _maintenanceReminders = val);
                       box.put('maintenanceRemindersEnabled', val);
-                    },
-                  ),
-                  const Divider(color: AppColors.outlineGray, height: 24),
-                  _NotificationToggleRow(
-                    title: "Security & Movement",
-                    subtitle: "Keyless lock triggers, paddock sensor warning",
-                    checked: _securityMovement,
-                    onChanged: (val) {
-                      setState(() => _securityMovement = val);
-                      box.put('securityMovementEnabled', val);
+                      _resyncNotifications();
                     },
                   ),
                 ],

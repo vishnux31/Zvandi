@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -503,6 +504,21 @@ class _FuelTab extends ConsumerWidget {
 
     final economyUnitLabel = unit == DistanceUnit.km ? 'Km/L' : 'mpg';
 
+    // Per-fill-up economy series (real consecutive odometer deltas) for the
+    // trend chart, oldest to newest, capped to the most recent 8 points.
+    final economySegments = <double>[];
+    for (var i = 1; i < sorted.length; i++) {
+      final deltaKm = sorted[i].odometerKm - sorted[i - 1].odometerKm;
+      if (deltaKm <= 0 || sorted[i].liters <= 0) continue;
+      final kmPerL = deltaKm / sorted[i].liters;
+      economySegments.add(
+        unit == DistanceUnit.km ? kmPerL : FuelEconomy.kmPerLiterToMpg(kmPerL),
+      );
+    }
+    final economyPoints = economySegments.length > 8
+        ? economySegments.sublist(economySegments.length - 8)
+        : economySegments;
+
     return ListView(
       key: const ValueKey('fuel_tracker_lazy_column'),
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
@@ -560,37 +576,47 @@ class _FuelTab extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Efficiency Trend Index",
+                  "Efficiency Trend",
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: AppColors.subtextZinc,
                       ),
                 ),
                 const SizedBox(height: 12),
-                const _SparklineChart(),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Initial Run",
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: AppColors.subtextZinc,
-                          ),
+                if (economyPoints.length < 2)
+                  SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: Text(
+                        "Log a few more fuel-ups to see your efficiency trend.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: AppColors.subtextZinc, fontSize: 12),
+                      ),
                     ),
-                    Text(
-                      "Target Peak (+4%)",
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: AppColors.safeGreen,
-                          ),
-                    ),
-                    Text(
-                      "Now",
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: AppColors.subtextZinc,
-                          ),
-                    ),
-                  ],
-                ),
+                  )
+                else ...[
+                  _EfficiencyTrendChart(
+                    values: economyPoints,
+                    lineColor: AppColors.safeGreen,
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "First: ${economyPoints.first.toStringAsFixed(1)} $economyUnitLabel",
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: AppColors.subtextZinc,
+                            ),
+                      ),
+                      Text(
+                        "Latest: ${economyPoints.last.toStringAsFixed(1)} $economyUnitLabel",
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: AppColors.safeGreen,
+                            ),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),
@@ -720,71 +746,50 @@ class _StatTile extends StatelessWidget {
   }
 }
 
-class _SparklineChart extends StatelessWidget {
-  const _SparklineChart();
+/// Real fuel-economy trend line, bound to per-fill-up km/L (or mpg) values
+/// derived from consecutive fuel-up odometer deltas — replaces the old
+/// invented 5-point sparkline.
+class _EfficiencyTrendChart extends StatelessWidget {
+  final List<double> values;
+  final Color lineColor;
+
+  const _EfficiencyTrendChart({required this.values, required this.lineColor});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final spots = [
+      for (var i = 0; i < values.length; i++) FlSpot(i.toDouble(), values[i]),
+    ];
+    final minY = values.reduce((a, b) => a < b ? a : b);
+    final maxY = values.reduce((a, b) => a > b ? a : b);
+    final pad = ((maxY - minY) * 0.2).clamp(0.5, double.infinity);
+
+    return SizedBox(
       height: 100,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: CustomPaint(
-        painter: _SparklinePainter(
-          lineColor: AppColors.safeGreen,
-          guideColor: AppColors.outlineGray.withValues(alpha: 0.3),
+      child: LineChart(
+        LineChartData(
+          minY: (minY - pad).clamp(0, double.infinity),
+          maxY: maxY + pad,
+          gridData: const FlGridData(show: false),
+          titlesData: const FlTitlesData(show: false),
+          borderData: FlBorderData(show: false),
+          lineTouchData: const LineTouchData(enabled: false),
+          lineBarsData: [
+            LineChartBarData(
+              spots: spots,
+              isCurved: true,
+              color: lineColor,
+              barWidth: 3,
+              dotData: const FlDotData(show: true),
+              belowBarData: BarAreaData(
+                show: true,
+                color: lineColor.withValues(alpha: 0.12),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
-}
-
-class _SparklinePainter extends CustomPainter {
-  final Color lineColor;
-  final Color guideColor;
-
-  _SparklinePainter({required this.lineColor, required this.guideColor});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = lineColor
-      ..strokeWidth = 3
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    final guidePaint = Paint()
-      ..color = guideColor
-      ..strokeWidth = 1;
-
-    // Draw horizontal guides
-    canvas.drawLine(const Offset(0, 10), Offset(size.width, 10), guidePaint);
-    canvas.drawLine(Offset(0, size.height / 2), Offset(size.width, size.height / 2), guidePaint);
-    canvas.drawLine(Offset(0, size.height - 10), Offset(size.width, size.height - 10), guidePaint);
-
-    // Spark point coordinates representing economy index
-    final points = [
-      Offset(20, size.height - 15),
-      Offset(size.width * 0.25, size.height - 25),
-      Offset(size.width * 0.5, size.height - 20),
-      Offset(size.width * 0.75, 12),
-      Offset(size.width - 20, 18),
-    ];
-
-    for (int i = 0; i < points.length - 1; i++) {
-      canvas.drawLine(points[i], points[i + 1], paint);
-    }
-
-    final dotPaint = Paint()
-      ..color = lineColor
-      ..style = PaintingStyle.fill;
-
-    for (final pt in points) {
-      canvas.drawCircle(pt, 4, dotPaint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 

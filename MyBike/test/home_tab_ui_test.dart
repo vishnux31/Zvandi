@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mybike/features/home/home_tab.dart';
 import 'package:mybike/providers/app_providers.dart';
+import 'package:mybike/providers/home_insights_provider.dart';
 import 'package:mybike/providers/maintenance_schedule_provider.dart';
 import 'package:mybike/services/reminder_service.dart';
 import 'package:mybike/data/models/bike.dart';
@@ -47,6 +48,11 @@ void main() {
           garageSelectedBikeIdProvider.overrideWith((ref) => 'active-bike-id'),
           bikeByIdProvider('active-bike-id').overrideWithValue(testBike),
           remindersForBikeProvider('active-bike-id').overrideWithValue([]),
+          // UAT Phase 3 introduced these — override so the widget doesn't
+          // fall through to the real (Hive-backed) records/fuel providers.
+          fuelEconomyTrendProvider('active-bike-id').overrideWithValue(null),
+          upcomingExpensesProvider('active-bike-id').overrideWithValue([]),
+          recentActivityProvider('active-bike-id').overrideWithValue([]),
         ],
         child: const MaterialApp(
           home: Scaffold(
@@ -69,22 +75,24 @@ void main() {
     expect(find.text('Brakes'), findsOneWidget);
     expect(find.text('Tyres'), findsOneWidget);
 
-    // Verify smart insights cards
+    // Verify smart insights section: with no reminders and no fuel history,
+    // there's nothing real to report, so it shows an honest "All Clear"
+    // placeholder rather than a fabricated wear/efficiency story.
     expect(find.text('Smart Insights'), findsOneWidget);
-    expect(find.text('Wear Alert'), findsOneWidget);
-    expect(find.text('Efficiency'), findsOneWidget);
+    expect(find.text('All Clear'), findsOneWidget);
+    expect(find.text('Wear Alert'), findsNothing);
+    expect(find.text('Efficiency'), findsNothing);
 
     // Verify attention required badge
     expect(find.text('Attention Required'), findsOneWidget);
     expect(find.text('All systems healthy. No action required.'), findsOneWidget);
 
-    // Verify upcoming expenses sections
+    // Verify upcoming expenses section's honest empty state (no reminders).
     expect(find.text('Upcoming Expenses'), findsOneWidget);
-    expect(find.text('Estimated Total (Next 30 days)'), findsOneWidget);
+    expect(find.text('Nothing due soon.'), findsOneWidget);
 
-    // Verify recent activity timeline items
+    // Verify recent activity's honest empty state (no logged events).
     expect(find.text('Recent Activity'), findsOneWidget);
-    expect(find.text('Completed Morning Ride'), findsOneWidget);
-    expect(find.text('Diagnostic Scan Performed'), findsOneWidget);
+    expect(find.text('No service or fuel logs yet.'), findsOneWidget);
   });
 }

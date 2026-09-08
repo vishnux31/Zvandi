@@ -657,11 +657,6 @@ class _SmartInsightsSection extends ConsumerWidget {
           "averaging ${value.toStringAsFixed(1)} $unitLabel.";
     }
 
-    // Nothing worth surfacing yet — don't render fabricated insights.
-    if (wearInsight == null && efficiencyInsight == null) {
-      return const SizedBox.shrink();
-    }
-
     final cards = [
       if (wearInsight != null)
         _InsightCard(
@@ -680,6 +675,20 @@ class _SmartInsightsSection extends ConsumerWidget {
           message: efficiencyInsight,
         ),
     ];
+
+    // Nothing worth surfacing yet — show one honest placeholder rather than
+    // fabricating a wear/efficiency story (mirrors _AttentionRequiredSection's
+    // "all clear" empty state below).
+    if (cards.isEmpty) {
+      cards.add(const _InsightCard(
+        icon: Icons.check_circle,
+        label: "All Clear",
+        accent: AppColors.safeGreen,
+        badgeIcon: Icons.eco,
+        message: "No wear concerns right now, and not enough fuel history "
+            "yet for an efficiency trend.",
+      ));
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
