@@ -184,11 +184,42 @@ Remediation work tracked against `Zvandi_UAT_Plan.md`, committed incrementally o
   `test/home_screen_navigation_test.dart` and `test/settings_tab_ui_test.dart`
   for the UI/behavior changes above (removed dialog → real routing,
   fabricated strings → honest empty states, dropped Administrative/Security
-  rows). Not executed in this environment (no Flutter SDK available) —
-  please run `flutter test` before merging.
-- Found a pre-existing gap unrelated to this plan: `settings_tab_ui_test.dart`
-  (and potentially others) read Hive-backed providers
-  (`bikesProvider`/`settingsProvider`) without a test-time Hive
-  initialization, which will throw `HiveError: Box not found` when actually
-  run. Worth a follow-up to add a `flutter_test_config.dart`/`setUpAll`
-  that initializes Hive with a temp directory for the suite.
+  rows).
+- Verified against the real toolchain (Flutter 3.44.0 / Dart 3.12.0):
+  - `flutter analyze` — no errors in `lib/`.
+  - `flutter build apk --release` — succeeds (fat APK ~58.6 MB; split
+    per-ABI arm64-v8a ~22 MB).
+  - `flutter test` — **13 passed / 12 failed on `UAT`**, versus
+    **10 passed / 14 failed on `main`**. The improvement comes from fixing
+    `test/bike_health_test_helpers.dart`, which was missing two required
+    `MaintenanceItem` arguments on `main` and stopped the suite compiling.
+- **Known pre-existing gap (not introduced here):** all 12 remaining
+  failures are `HiveError: Box not found`. The widget tests never
+  initialize Hive, so any test rendering a widget that reads
+  `bikesProvider`/`settingsProvider` crashes — including screens this plan
+  never touched (`learn_tab`, `garage_tab`, `service_form_screen`,
+  `sign_in_screen`). Fix needs a `test/flutter_test_config.dart` (or
+  `setUpAll`) that runs `Hive.init(<temp dir>)` and opens the boxes from
+  `LocalStore` before the suite. Tracked as follow-up.
+
+## Building an installable APK
+
+No `android/key.properties` exists, so `android/app/build.gradle.kts`
+falls back to the **debug** signing config. The resulting APK sideloads
+fine but cannot be published to Play, and a later real-keystore build will
+require uninstalling first (signature mismatch).
+
+```
+flutter build apk --release                  # single fat APK, all ABIs
+flutter build apk --release --split-per-abi  # smaller per-architecture APKs
+```
+
+Output lands in `build/app/outputs/flutter-apk/`.
+
+**Google Sign-In caveat:** `android/app/google-services.json` currently
+contains only a web OAuth client (`client_type: 3`) and no Android client
+with a signing-certificate hash, so Google Sign-In will fail on a
+sideloaded build. To fix, register the signing certificate's SHA-1 against
+`com.mybike.mybike` in the Firebase console and re-download
+`google-services.json`. Email/password sign-in does not depend on SHA-1
+and works as-is.
