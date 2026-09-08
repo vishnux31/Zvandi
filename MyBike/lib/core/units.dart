@@ -29,4 +29,8 @@ class FuelEconomy {
     final gallons = liters / 3.785411784;
     return miles / gallons;
   }
+
+  /// Converts an already-computed km/L figure into miles-per-(US)-gallon,
+  /// for display when the user's distance unit is miles.
+  static double kmPerLiterToMpg(double kmPerL) => kmPerL * 3.785411784 / _kmPerMile;
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/colors.dart';
+import '../../core/formatters.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/settings_provider.dart';
 import '../../providers/maintenance_schedule_provider.dart';
@@ -96,9 +97,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Good Morning",
-                  style: TextStyle(fontSize: 10, color: AppColors.subtextZinc, fontWeight: FontWeight.bold),
+                Text(
+                  greetingForHour(DateTime.now().hour),
+                  style: const TextStyle(fontSize: 10, color: AppColors.subtextZinc, fontWeight: FontWeight.bold),
                 ),
                 Row(
                   children: [

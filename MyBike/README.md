@@ -138,3 +138,24 @@ Remediation work tracked against `Zvandi_UAT_Plan.md`, committed incrementally o
 - Dropped the "Rossi" rider-name fallback (onboarding requires a real name
   before this screen is reachable) and the fabricated "Pro Telemetry User"
   label in Settings.
+
+### Phase 3 — Home screen live data
+- Greeting now reflects the actual time of day instead of always reading
+  "Good Morning" (`greetingForHour` in `core/formatters.dart`).
+- Smart Insights: the "Wear Alert" card names the real worst-scoring
+  component (from `bikeComponentScoresProvider`) and its real remaining
+  distance/days, and is hidden once every component is ≥ 80%. The
+  "Efficiency" card shows a real this-month-vs-last-month fuel-economy
+  delta from `fuelEconomyTrendProvider` (new,
+  `lib/providers/home_insights_provider.dart`), derived from consecutive
+  fuel-up odometer deltas; hidden until both months have data.
+- Upcoming Expenses now lists the real soonest-due items with an estimated
+  cost from `upcomingExpensesProvider` — the median historical
+  `ServiceRecord.cost` for that service type (this bike's own history
+  first, falling back to all bikes), shown in ₹. Items without any cost
+  history show "—" instead of a fabricated number, and the total is
+  labelled "partial" when some items are missing an estimate.
+- Recent Activity now merges real `ServiceRecord` + `FuelEntry` events
+  (`recentActivityProvider`), most recent first, instead of a scripted
+  ride/diagnostic-scan timeline — this app has no trip-tracking or
+  diagnostic-scan data source.

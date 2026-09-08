@@ -13,6 +13,13 @@ const kCurrencySymbol = '₹';
 
 String formatDate(DateTime date) => _dateFormat.format(date);
 
+/// A time-of-day greeting, e.g. for the Home screen header.
+String greetingForHour(int hour) {
+  if (hour < 12) return 'Good Morning';
+  if (hour < 17) return 'Good Afternoon';
+  return 'Good Evening';
+}
+
 String formatDistance(double km, DistanceUnit unit, {bool withUnit = true}) {
   final value = unit.fromKm(km);
   final text = _numberFormat.format(value.round());

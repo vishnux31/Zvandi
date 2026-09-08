@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/colors.dart';
 import '../../core/formatters.dart';
+import '../../core/units.dart';
 import '../../data/models/bike.dart';
 import '../../data/models/enums.dart';
+import '../../providers/home_insights_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../providers/maintenance_schedule_provider.dart';
 import '../../services/bike_health_service.dart';
@@ -73,15 +75,16 @@ class HomeTab extends ConsumerWidget {
             tyresScore: tyresScore,
           ),
           const SizedBox(height: 24),
-          const _SmartInsightsSection(),
+          _SmartInsightsSection(bikeId: activeBike.id),
           const SizedBox(height: 24),
           _AttentionRequiredSection(criticalAlerts: criticalAlerts),
           const SizedBox(height: 24),
           _UpcomingExpensesSection(
+            bikeId: activeBike.id,
             onNavigate: () => context.push('/bike/${activeBike.id}'),
           ),
           const SizedBox(height: 24),
-          const _RecentActivitySection(),
+          _RecentActivitySection(bikeId: activeBike.id),
         ],
       ),
     );
@@ -593,11 +596,91 @@ class _ComponentRow extends StatelessWidget {
   }
 }
 
-class _SmartInsightsSection extends StatelessWidget {
-  const _SmartInsightsSection();
+class _SmartInsightsSection extends ConsumerWidget {
+  final String bikeId;
+  const _SmartInsightsSection({required this.bikeId});
+
+  static String _componentLabel(BikeComponentGroup group) => switch (group) {
+        BikeComponentGroup.engine => 'engine',
+        BikeComponentGroup.chain => 'chain',
+        BikeComponentGroup.brakes => 'brakes',
+        BikeComponentGroup.tyres => 'tyres',
+      };
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scores = ref.watch(bikeComponentScoresProvider(bikeId));
+    final reminders = ref.watch(remindersForBikeProvider(bikeId));
+    final trend = ref.watch(fuelEconomyTrendProvider(bikeId));
+    final unit = ref.watch(settingsProvider).distanceUnit;
+
+    // Worst-scoring component group, if any is below a "needs attention"
+    // threshold — real wear data, not a scripted chain warning.
+    MapEntry<BikeComponentGroup, int>? worst;
+    for (final entry in scores.entries) {
+      if (worst == null || entry.value < worst.value) worst = entry;
+    }
+
+    String? wearInsight;
+    if (worst != null && worst.value < 80) {
+      final group = worst.key;
+      final types = componentGroupServiceTypes[group]!;
+      ReminderInfo? worstItem;
+      for (final r in reminders.where((r) => types.contains(r.item.type))) {
+        if (worstItem == null || r.usage > worstItem.usage) worstItem = r;
+      }
+      final remainingKm = worstItem?.remainingKm;
+      final remainingDays = worstItem?.remainingDays;
+      final String horizon;
+      if (remainingKm != null && remainingKm > 0) {
+        horizon = 'in ${formatDistance(remainingKm, unit)}';
+      } else if (remainingDays != null && remainingDays >= 0) {
+        horizon = 'in ${remainingDays}d';
+      } else {
+        horizon = 'now';
+      }
+      wearInsight =
+          "Your ${_componentLabel(group)} is at ${worst.value}% — inspect $horizon.";
+    }
+
+    // Real month-over-month fuel-economy delta, computed from odometer
+    // deltas between consecutive fuel-ups.
+    String? efficiencyInsight;
+    if (trend != null) {
+      final unitLabel = unit == DistanceUnit.km ? 'Km/L' : 'mpg';
+      final value = unit == DistanceUnit.km
+          ? trend.currentKmPerL
+          : FuelEconomy.kmPerLiterToMpg(trend.currentKmPerL);
+      final direction = trend.deltaPercent >= 0 ? 'up' : 'down';
+      efficiencyInsight = "Fuel economy is $direction "
+          "${trend.deltaPercent.abs().toStringAsFixed(0)}% this month, "
+          "averaging ${value.toStringAsFixed(1)} $unitLabel.";
+    }
+
+    // Nothing worth surfacing yet — don't render fabricated insights.
+    if (wearInsight == null && efficiencyInsight == null) {
+      return const SizedBox.shrink();
+    }
+
+    final cards = [
+      if (wearInsight != null)
+        _InsightCard(
+          icon: Icons.trending_up,
+          label: "Wear Alert",
+          accent: AppColors.primaryOrange,
+          badgeIcon: Icons.lightbulb,
+          message: wearInsight,
+        ),
+      if (efficiencyInsight != null)
+        _InsightCard(
+          icon: Icons.check_circle,
+          label: "Efficiency",
+          accent: AppColors.safeGreen,
+          badgeIcon: Icons.eco,
+          message: efficiencyInsight,
+        ),
+    ];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -614,126 +697,85 @@ class _SmartInsightsSection extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    side: const BorderSide(color: AppColors.outlineGray),
-                  ),
-                  color: AppColors.surfacePanel,
-                  child: Container(
-                    height: 180,
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Row(
-                              children: [
-                                Icon(Icons.trending_up, color: AppColors.primaryOrange, size: 16),
-                                SizedBox(width: 6),
-                                Text(
-                                  "Wear Alert",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primaryOrange,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Icon(
-                              Icons.lightbulb,
-                              color: AppColors.primaryOrange.withValues(alpha: 0.5),
-                              size: 20,
-                            ),
-                          ],
-                        ),
-                        const Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 12.0),
-                            child: Text(
-                              "Your chain is wearing faster than expected based on your recent aggressive acceleration patterns.",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                height: 1.45,
-                              ),
-                              maxLines: 5,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    side: const BorderSide(color: AppColors.outlineGray),
-                  ),
-                  color: AppColors.surfacePanel,
-                  child: Container(
-                    height: 180,
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Row(
-                              children: [
-                                Icon(Icons.check_circle, color: AppColors.safeGreen, size: 16),
-                                SizedBox(width: 6),
-                                Text(
-                                  "Efficiency",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.safeGreen,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Icon(
-                              Icons.eco,
-                              color: AppColors.safeGreen.withValues(alpha: 0.5),
-                              size: 20,
-                            ),
-                          ],
-                        ),
-                        const Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 12.0),
-                            child: Text(
-                              "Fuel economy is up 4% this month. Maintaining steady RPMs during city commutes is paying off.",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                height: 1.45,
-                              ),
-                              maxLines: 5,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              for (var i = 0; i < cards.length; i++) ...[
+                if (i > 0) const SizedBox(width: 12),
+                Expanded(child: cards[i]),
+              ],
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _InsightCard extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color accent;
+  final IconData badgeIcon;
+  final String message;
+
+  const _InsightCard({
+    required this.icon,
+    required this.label,
+    required this.accent,
+    required this.badgeIcon,
+    required this.message,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: AppColors.outlineGray),
+      ),
+      color: AppColors.surfacePanel,
+      child: Container(
+        height: 180,
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(icon, color: accent, size: 16),
+                    const SizedBox(width: 6),
+                    Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: accent,
+                      ),
+                    ),
+                  ],
+                ),
+                Icon(badgeIcon, color: accent.withValues(alpha: 0.5), size: 20),
+              ],
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12.0),
+                child: Text(
+                  message,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    height: 1.45,
+                  ),
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -843,13 +885,23 @@ class _AttentionRequiredSection extends StatelessWidget {
   }
 }
 
-class _UpcomingExpensesSection extends StatelessWidget {
+class _UpcomingExpensesSection extends ConsumerWidget {
+  final String bikeId;
   final VoidCallback onNavigate;
 
-  const _UpcomingExpensesSection({required this.onNavigate});
+  const _UpcomingExpensesSection({
+    required this.bikeId,
+    required this.onNavigate,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items = ref.watch(upcomingExpensesProvider(bikeId));
+    final estimated = items.where((i) => i.estimatedCost != null);
+    final total = estimated.fold<double>(0, (sum, i) => sum + i.estimatedCost!);
+    final hasAnyEstimate = estimated.isNotEmpty;
+    final someMissing = items.any((i) => i.estimatedCost == null);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -880,87 +932,76 @@ class _UpcomingExpensesSection extends StatelessWidget {
             color: AppColors.surfacePanel,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: AppColors.surfaceLight,
-                            radius: 16,
-                            child: Icon(ServiceType.engineOil.icon, color: AppColors.labelZinc, size: 16),
-                          ),
-                          const SizedBox(width: 10),
-                          const Text(
-                            "Oil Filter & Synthetic Oil",
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          ),
-                        ],
+              child: items.isEmpty
+                  ? const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Text(
+                        "Nothing due soon.",
+                        style: TextStyle(color: AppColors.subtextZinc),
                       ),
-                      const Text(
-                        "\$85",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'monospace',
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: AppColors.surfaceLight,
-                            radius: 16,
-                            child: Icon(ServiceType.frontTire.icon, color: AppColors.labelZinc, size: 16),
-                          ),
-                          const SizedBox(width: 10),
-                          const Text(
-                            "Rear Tyre Replacement",
-                            style: TextStyle(color: Colors.white, fontSize: 14),
+                    )
+                  : Column(
+                      children: [
+                        for (var i = 0; i < items.length; i++) ...[
+                          if (i > 0) const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: AppColors.surfaceLight,
+                                radius: 16,
+                                child: Icon(items[i].type.icon,
+                                    color: AppColors.labelZinc, size: 16),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  items[i].itemName,
+                                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Text(
+                                items[i].estimatedCost != null
+                                    ? formatCost(items[i].estimatedCost!)
+                                    : '—',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'monospace',
+                                ),
+                              ),
+                            ],
                           ),
                         ],
-                      ),
-                      const Text(
-                        "\$220",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'monospace',
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Divider(color: AppColors.outlineGray),
                         ),
-                      ),
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Divider(color: AppColors.outlineGray),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Estimated Total (Next 30 days)",
-                        style: TextStyle(color: AppColors.subtextZinc, fontSize: 13),
-                      ),
-                      const Text(
-                        "\$305",
-                        style: TextStyle(
-                          color: AppColors.primaryOrange,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'monospace',
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                someMissing
+                                    ? "Estimated Total (partial — no cost history for some items)"
+                                    : "Estimated Total",
+                                style: const TextStyle(color: AppColors.subtextZinc, fontSize: 13),
+                              ),
+                            ),
+                            Text(
+                              hasAnyEstimate ? formatCost(total) : '—',
+                              style: const TextStyle(
+                                color: AppColors.primaryOrange,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'monospace',
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                      ],
+                    ),
             ),
           ),
         ],
@@ -969,16 +1010,24 @@ class _UpcomingExpensesSection extends StatelessWidget {
   }
 }
 
-class _RecentActivitySection extends StatelessWidget {
-  const _RecentActivitySection();
+class _RecentActivitySection extends ConsumerWidget {
+  final String bikeId;
+  const _RecentActivitySection({required this.bikeId});
+
+  static String _whenLabel(DateTime date, DateTime now) {
+    final day = DateTime(date.year, date.month, date.day);
+    final today = DateTime(now.year, now.month, now.day);
+    final diff = today.difference(day).inDays;
+    if (diff == 0) return 'Today';
+    if (diff == 1) return 'Yesterday';
+    return formatDate(date);
+  }
 
   @override
-  Widget build(BuildContext context) {
-    final activities = [
-      ("Today, 10:30 AM", "Completed Morning Ride", "Distance: 45km • Avg Speed: 62km/h"),
-      ("Yesterday, 4:15 PM", "Tire Pressure Adjusted", "Front: 36 PSI • Rear: 42 PSI"),
-      ("Oct 12, 09:00 AM", "Diagnostic Scan Performed", "No fault codes found")
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final activities = ref.watch(recentActivityProvider(bikeId));
+    final unit = ref.watch(settingsProvider).distanceUnit;
+    final now = DateTime.now();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -1002,73 +1051,99 @@ class _RecentActivitySection extends StatelessWidget {
             color: AppColors.surfacePanel,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: List.generate(activities.length, (index) {
-                  final act = activities[index];
-                  final isDiagnostic = act.$2.contains("Diagnostic");
-
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            width: 10,
-                            height: 10,
-                            decoration: BoxDecoration(
-                              color: index == 0 ? AppColors.primaryOrange : AppColors.surfaceLight,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          if (index < activities.length - 1)
-                            Container(
-                              width: 2,
-                              height: 50,
-                              color: AppColors.outlineGray,
-                            ),
-                        ],
+              child: activities.isEmpty
+                  ? const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text(
+                        "No service or fuel logs yet.",
+                        style: TextStyle(color: AppColors.subtextZinc),
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: index < activities.length - 1 ? 16.0 : 0.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                act.$1,
-                                style: const TextStyle(color: AppColors.subtextZinc, fontSize: 10, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(
-                                act.$2,
-                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-                              ),
-                              const SizedBox(height: 4),
-                              if (isDiagnostic)
-                                Row(
+                    )
+                  : Column(
+                      children: List.generate(activities.length, (index) {
+                        final activity = activities[index];
+                        // Derive icon/title/subtitle from the real logged
+                        // event — no trip-tracking or diagnostic-scan data
+                        // exists in this app, so those categories are gone.
+                        final (icon, title, subtitle) = switch (activity) {
+                          ServiceActivity(record: final r) => (
+                              r.type.icon,
+                              (r.notes != null && r.notes!.isNotEmpty)
+                                  ? r.notes!
+                                  : r.type.label,
+                              '${r.type.label} • ${formatDistance(r.odometerKm, unit)}'
+                                  '${r.cost != null ? ' • ${formatCost(r.cost!)}' : ''}',
+                            ),
+                          FuelActivity(entry: final e) => (
+                              Icons.local_gas_station,
+                              (e.notes != null && e.notes!.isNotEmpty)
+                                  ? e.notes!
+                                  : 'Fuel-up',
+                              '${e.liters.toStringAsFixed(1)} L'
+                                  '${e.cost != null ? ' • ${formatCost(e.cost!)}' : ''} • '
+                                  '${formatDistance(e.odometerKm, unit)}',
+                            ),
+                        };
+
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: [
+                                Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    color: index == 0 ? AppColors.primaryOrange : AppColors.surfaceLight,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                if (index < activities.length - 1)
+                                  Container(
+                                    width: 2,
+                                    height: 50,
+                                    color: AppColors.outlineGray,
+                                  ),
+                              ],
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: index < activities.length - 1 ? 16.0 : 0.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Icon(Icons.check_circle, color: AppColors.safeGreen, size: 14),
-                                    const SizedBox(width: 4),
+                                    Row(
+                                      children: [
+                                        Icon(icon, color: AppColors.subtextZinc, size: 12),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          _whenLabel(activity.date, now),
+                                          style: const TextStyle(
+                                              color: AppColors.subtextZinc,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 2),
                                     Text(
-                                      act.$3,
-                                      style: const TextStyle(color: AppColors.safeGreen, fontSize: 13),
+                                      title,
+                                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      subtitle,
+                                      style: const TextStyle(color: AppColors.subtextZinc, fontSize: 13),
                                     ),
                                   ],
-                                )
-                              else
-                                Text(
-                                  act.$3,
-                                  style: const TextStyle(color: AppColors.subtextZinc, fontSize: 13),
                                 ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }),
-              ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                    ),
             ),
           ),
         ],
