@@ -214,25 +214,9 @@ class _BikeDetailScreenState extends ConsumerState<BikeDetailScreen>
               onMarkDone: _markItemDone,
             ),
             _HistoryTab(bikeId: bike.id),
-            _FuelTab(
-              bikeId: bike.id,
-              onEdit: (context, existing) => _showAddFuelDialog(context, existing),
-            ),
+            _FuelTab(bikeId: bike.id),
           ],
         ),
-      ),
-    );
-  }
-
-  void _showAddFuelDialog(BuildContext context, [FuelEntry? existing]) {
-    final bike = ref.read(bikeByIdProvider(widget.bikeId));
-    if (bike == null) return;
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) => _LocalAddFuelDialog(
-        bike: bike,
-        existing: existing,
       ),
     );
   }
@@ -257,7 +241,7 @@ class _BikeDetailScreenState extends ConsumerState<BikeDetailScreen>
         return FloatingActionButton(
           key: const ValueKey('add_fuel_log_fab'),
           heroTag: 'fab2',
-          onPressed: () => _showAddFuelDialog(context),
+          onPressed: () => context.push('/bike/${widget.bikeId}/fuel/new'),
           backgroundColor: AppColors.accentCopper,
           foregroundColor: AppColors.onPrimaryText,
           child: const Icon(Icons.local_gas_station),
@@ -485,9 +469,8 @@ class _HistoryTab extends ConsumerWidget {
 
 class _FuelTab extends ConsumerWidget {
   final String bikeId;
-  final void Function(BuildContext context, FuelEntry? existing) onEdit;
 
-  const _FuelTab({required this.bikeId, required this.onEdit});
+  const _FuelTab({required this.bikeId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -502,7 +485,9 @@ class _FuelTab extends ConsumerWidget {
     final sorted = List<FuelEntry>.from(entries)
       ..sort((a, b) => a.odometerKm.compareTo(b.odometerKm));
 
-    String fuelEconomy = "42.5";
+    // Real economy requires at least two fuel-ups to derive a distance
+    // delta — never fabricate a number when there isn't enough data yet.
+    String? fuelEconomy;
     if (totalLiters > 0 && sorted.length >= 2) {
       final delta = sorted.last.odometerKm - sorted.first.odometerKm;
       if (delta > 0) {
@@ -536,7 +521,9 @@ class _FuelTab extends ConsumerWidget {
             Expanded(
               child: _StatTile(
                 title: "Avg Fuel Economy",
-                value: "$fuelEconomy $economyUnitLabel",
+                value: fuelEconomy == null
+                    ? "—"
+                    : "$fuelEconomy $economyUnitLabel",
                 valueColor: AppColors.safeGreen,
               ),
             ),
@@ -544,7 +531,7 @@ class _FuelTab extends ConsumerWidget {
             Expanded(
               child: _StatTile(
                 title: "Total Cost",
-                value: "\$${totalCost.toStringAsFixed(2)}",
+                value: formatCost(totalCost),
               ),
             ),
             const SizedBox(width: 8),
@@ -556,6 +543,15 @@ class _FuelTab extends ConsumerWidget {
             ),
           ],
         ),
+        if (fuelEconomy == null) ...[
+          const SizedBox(height: 6),
+          Text(
+            "Add 2+ fuel-ups to calculate economy.",
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: AppColors.subtextZinc,
+                ),
+          ),
+        ],
         const SizedBox(height: 16),
         Card(
           child: Padding(
@@ -641,11 +637,13 @@ class _FuelTab extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      log.notes ?? 'Shell Station',
+                      (log.notes != null && log.notes!.isNotEmpty)
+                          ? log.notes!
+                          : '—',
                       style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                     Text(
-                      "\$${(log.cost ?? 0).toStringAsFixed(2)}",
+                      formatCost(log.cost ?? 0),
                       style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                   ],
@@ -666,7 +664,7 @@ class _FuelTab extends ConsumerWidget {
                     ],
                   ),
                 ),
-                onTap: () => onEdit(context, log),
+                onTap: () => context.push('/bike/$bikeId/fuel/${log.id}'),
               ),
             );
           }),
@@ -790,252 +788,3 @@ class _SparklinePainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-class _LocalAddFuelDialog extends ConsumerStatefulWidget {
-  final Bike bike;
-  final FuelEntry? existing;
-
-  const _LocalAddFuelDialog({
-    required this.bike,
-    this.existing,
-  });
-
-  @override
-  ConsumerState<_LocalAddFuelDialog> createState() => _LocalAddFuelDialogState();
-}
-
-class _LocalAddFuelDialogState extends ConsumerState<_LocalAddFuelDialog> {
-  late final TextEditingController _dateCtrl;
-  late final TextEditingController _odometerCtrl;
-  late final TextEditingController _litersCtrl;
-  late final TextEditingController _costCtrl;
-  late final TextEditingController _locationCtrl;
-
-  late DateTime _selectedDate;
-  String _errorText = '';
-
-  @override
-  void initState() {
-    super.initState();
-    final unit = ref.read(settingsProvider).distanceUnit;
-    final entry = widget.existing;
-
-    if (entry != null) {
-      _selectedDate = entry.date;
-      _dateCtrl = TextEditingController(text: formatDate(entry.date));
-      _odometerCtrl = TextEditingController(
-          text: unit.fromKm(entry.odometerKm).round().toString());
-      _litersCtrl = TextEditingController(text: entry.liters.toString());
-      _costCtrl = TextEditingController(text: entry.cost?.toString() ?? '');
-      _locationCtrl = TextEditingController(text: entry.notes ?? '');
-    } else {
-      _selectedDate = DateTime.now();
-      _dateCtrl = TextEditingController(text: formatDate(_selectedDate));
-      _odometerCtrl = TextEditingController(
-          text: unit.fromKm(widget.bike.odometerKm).round().toString());
-      _litersCtrl = TextEditingController();
-      _costCtrl = TextEditingController();
-      _locationCtrl = TextEditingController(text: 'Shell Station');
-    }
-  }
-
-  @override
-  void dispose() {
-    _dateCtrl.dispose();
-    _odometerCtrl.dispose();
-    _litersCtrl.dispose();
-    _costCtrl.dispose();
-    _locationCtrl.dispose();
-    super.dispose();
-  }
-
-  Future<void> _pickDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        _selectedDate = picked;
-        _dateCtrl.text = formatDate(picked);
-      });
-    }
-  }
-
-  void _onSave() {
-    final odoVal = double.tryParse(_odometerCtrl.text.trim());
-    final litersVal = double.tryParse(_litersCtrl.text.trim());
-    final costVal = double.tryParse(_costCtrl.text.trim()) ?? 0;
-    final location = _locationCtrl.text.trim();
-
-    if (odoVal == null || odoVal < 0) {
-      setState(() => _errorText = "Please enter a valid odometer");
-      return;
-    }
-    if (litersVal == null || litersVal <= 0) {
-      setState(() => _errorText = "Please enter a positive liters reading");
-      return;
-    }
-    if (costVal < 0) {
-      setState(() => _errorText = "Please enter a valid cost reading");
-      return;
-    }
-
-    final unit = ref.read(settingsProvider).distanceUnit;
-    final odoKm = unit.toKm(odoVal);
-
-    final entry = (widget.existing ??
-            FuelEntry(
-              id: const Uuid().v4(),
-              bikeId: widget.bike.id,
-              date: DateTime.now(),
-              odometerKm: 0,
-              liters: 0,
-              createdAt: DateTime.now(),
-            ))
-        .copyWith(
-      date: _selectedDate,
-      odometerKm: odoKm,
-      liters: litersVal,
-      cost: costVal > 0 ? costVal : null,
-      clearCost: costVal == 0,
-      fullTank: true,
-      notes: location.isEmpty ? 'Shell Station' : location,
-    );
-
-    ref.read(fuelProvider.notifier).save(entry);
-
-    if (odoKm > widget.bike.odometerKm) {
-      ref.read(bikesProvider.notifier).save(
-            widget.bike.copyWith(odometerKm: odoKm),
-          );
-    }
-
-    Navigator.pop(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-      backgroundColor: Colors.transparent,
-      child: Material(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: AppColors.outlineGray),
-        ),
-        color: AppColors.surfacePanel,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                "Refuel Log Entry",
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _dateCtrl,
-                key: const ValueKey('fuel_dialog_date'),
-                readOnly: true,
-                onTap: _pickDate,
-                decoration: const InputDecoration(
-                  labelText: 'Date',
-                  suffixIcon: Icon(Icons.calendar_today, color: AppColors.accentCopper),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _odometerCtrl,
-                key: const ValueKey('fuel_dialog_odo'),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
-                  labelText: 'Odometer Reading (Km)',
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _litersCtrl,
-                key: const ValueKey('fuel_dialog_liters'),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
-                  labelText: 'Volume (Liters)',
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _costCtrl,
-                key: const ValueKey('fuel_dialog_cost'),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
-                  labelText: 'Total Cost (\$)',
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _locationCtrl,
-                key: const ValueKey('fuel_dialog_location'),
-                decoration: const InputDecoration(
-                  labelText: 'Location',
-                  hintText: 'e.g. Shell',
-                ),
-              ),
-              if (_errorText.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                Text(
-                  _errorText,
-                  style: const TextStyle(color: AppColors.dangerRed),
-                ),
-              ],
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: AppColors.outlineGray),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      child: const Text("Cancel", style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: FilledButton(
-                      key: const ValueKey('fuel_dialog_confirm'),
-                      onPressed: _onSave,
-                      style: FilledButton.styleFrom(
-                        backgroundColor: AppColors.primaryOrange,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      child: const Text(
-                        "Save",
-                        style: TextStyle(
-                          color: AppColors.onPrimaryText,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}

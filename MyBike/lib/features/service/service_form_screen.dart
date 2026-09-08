@@ -322,7 +322,7 @@ class _ServiceFormScreenState extends ConsumerState<ServiceFormScreen> {
                       key: const ValueKey('service_cost_input'),
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       decoration: const InputDecoration(
-                        labelText: 'Total Cost (\$)',
+                        labelText: 'Total Cost ($kCurrencySymbol)',
                       ),
                     ),
                   ],

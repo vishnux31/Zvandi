@@ -44,16 +44,6 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
     );
   }
 
-  void _showSnackBar(String text) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(text),
-        backgroundColor: AppColors.surfaceLight,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final settings = ref.watch(settingsProvider);
@@ -96,7 +86,7 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            settings.riderName ?? "Rossi",
+                            settings.riderName ?? "Rider",
                             style: const TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -105,7 +95,7 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            "Pro Telemetry User • $bikeCount ${bikeCount == 1 ? 'Machine' : 'Machines'}",
+                            "$bikeCount ${bikeCount == 1 ? 'Machine' : 'Machines'}",
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -286,67 +276,6 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
             ),
           ),
           const SizedBox(height: 20),
-
-          // Administrative options
-          const Text(
-            "ADMINISTRATIVE",
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.bold,
-              color: AppColors.subtextZinc,
-            ),
-          ),
-          const SizedBox(height: 8),
-
-          Card(
-            color: AppColors.surfacePanel,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-              side: const BorderSide(color: AppColors.outlineGray),
-            ),
-            child: Column(
-              children: [
-                ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  leading: const CircleAvatar(
-                    backgroundColor: AppColors.surfaceLight,
-                    radius: 16,
-                    child: Icon(Icons.share, color: AppColors.accentCopper, size: 16),
-                  ),
-                  title: const Text(
-                    "Export Diagnostic Telemetry",
-                    style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: const Text(
-                    "Compile offline diagnostics log as CSV format",
-                    style: TextStyle(color: AppColors.subtextZinc, fontSize: 13),
-                  ),
-                  trailing: const Icon(Icons.keyboard_arrow_right, color: AppColors.subtextZinc),
-                  onTap: () => _showSnackBar("Diagnostic telemetry raw profile exported successfully."),
-                ),
-                const Divider(color: AppColors.outlineGray, height: 1),
-                ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  leading: const CircleAvatar(
-                    backgroundColor: AppColors.surfaceLight,
-                    radius: 16,
-                    child: Icon(Icons.security, color: AppColors.accentCopper, size: 16),
-                  ),
-                  title: const Text(
-                    "Encryption & Keys",
-                    style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: const Text(
-                    "Review security tokens and credential pairing keys",
-                    style: TextStyle(color: AppColors.subtextZinc, fontSize: 13),
-                  ),
-                  trailing: const Icon(Icons.keyboard_arrow_right, color: AppColors.subtextZinc),
-                  onTap: () => _showSnackBar("My Bike client is loaded offline-first. Safe sandbox."),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
 
           // Sign Out Button
           OutlinedButton.icon(

@@ -8,6 +8,12 @@ import '../data/models/service_record.dart';
 import '../data/repositories/repositories.dart';
 import '../services/cloud_sync_service.dart';
 
+/// Which bottom-nav tab is active on [HomeScreen]. Exposed as a provider
+/// (rather than local widget state) so external entry points — the
+/// reminders bell, a push-notification tap, a future deep link — can
+/// select a tab without routing through the widget tree.
+final homeTabIndexProvider = StateProvider<int>((ref) => 0);
+
 final bikeRepositoryProvider = Provider((ref) => BikeRepository());
 final itemRepositoryProvider = Provider((ref) => MaintenanceItemRepository());
 final recordRepositoryProvider = Provider((ref) => ServiceRecordRepository());

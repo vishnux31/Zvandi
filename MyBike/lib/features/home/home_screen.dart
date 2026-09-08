@@ -24,8 +24,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  int _index = 0;
-
   @override
   void initState() {
     super.initState();
@@ -75,6 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     const tabs = [HomeTab(), GarageTab(), RemindersTab(), LearnTab(), SettingsTab()];
     final active = ref.watch(activeRemindersProvider).length;
+    final index = ref.watch(homeTabIndexProvider);
 
     return Scaffold(
       backgroundColor: AppColors.darkBlack,
@@ -104,7 +103,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Row(
                   children: [
                     Text(
-                      settings.riderName ?? "Rossi",
+                      settings.riderName ?? "Rider",
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                     const Icon(
@@ -123,7 +122,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           IconButton(
             key: const ValueKey('bell_notification_icon'),
             onPressed: () {
-              setState(() => _index = 2); // Switch to RemindersTab (index 2)
+              // Switch to RemindersTab (index 2) via the shared provider so
+              // notification taps / deep links can drive this too.
+              ref.read(homeTabIndexProvider.notifier).state = 2;
             },
             icon: Stack(
               alignment: Alignment.topRight,
@@ -147,11 +148,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           const SizedBox(width: 8),
         ],
       ),
-      body: IndexedStack(index: _index, children: tabs),
+      body: IndexedStack(index: index, children: tabs),
       bottomNavigationBar: NavigationBar(
         key: const ValueKey('bottom_nav_bar'),
-        selectedIndex: _index,
-        onDestinationSelected: (i) => setState(() => _index = i),
+        selectedIndex: index,
+        onDestinationSelected: (i) =>
+            ref.read(homeTabIndexProvider.notifier).state = i,
         destinations: [
           const NavigationDestination(
             key: ValueKey('home_tab'),

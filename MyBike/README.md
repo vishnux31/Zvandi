@@ -109,3 +109,32 @@ Planned fast-follows, in priority order:
 
 - iOS notification + Firebase setup requires macOS; build those targets on a Mac
   or in CI.
+
+## UAT changes
+
+Remediation work tracked against `Zvandi_UAT_Plan.md`, committed incrementally on the `UAT` branch.
+
+### Phase 1 — Navigation hygiene
+- Reminders bell now switches tabs through a shared `homeTabIndexProvider`
+  instead of local widget state, so notification taps / deep links can drive
+  it later.
+- Removed the dead in-place `_LocalAddFuelDialog` (~250 lines) from
+  `bike_detail_screen.dart`. The Fuel tab's FAB and log rows now route
+  through `go_router` to `FuelFormScreen` (`/bike/{id}/fuel/new` and
+  `/bike/{id}/fuel/{fuelId}`), so there's one implementation of "add/edit
+  fuel entry" and it's deep-linkable.
+- Removed the two non-functional "Export Diagnostic Telemetry" and
+  "Encryption & Keys" rows from Settings — they only showed a snackbar and
+  did nothing real. Re-add once there's an actual implementation behind them.
+
+### Phase 2 — Currency + trivial statics
+- Swept hardcoded `$` cost displays to `formatCost()` / `₹` in the Fuel tab
+  and the service-cost field label.
+- Removed fabricated fallback values that were never derived from real data:
+  the "850 km" next-service placeholder in Garage now reads "—" when there
+  isn't enough reminder data; the "42.5 Km/L" fuel-economy placeholder now
+  reads "—" (with a hint) until 2+ fuel-ups exist; the "Shell Station"
+  default fuel-log location is gone, falling back to "—".
+- Dropped the "Rossi" rider-name fallback (onboarding requires a real name
+  before this screen is reachable) and the fabricated "Pro Telemetry User"
+  label in Settings.

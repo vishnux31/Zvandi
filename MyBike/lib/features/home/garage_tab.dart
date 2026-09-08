@@ -41,7 +41,8 @@ class _GarageTabState extends ConsumerState<GarageTab> {
       return formatDistance(minRemainingKm, unit);
     }
 
-    return "850 ${unit.label}";
+    // Not enough reminder data to project a distance — don't invent one.
+    return "—";
   }
 
   void _showAddDialog() => showAddBikeDialog(context);
