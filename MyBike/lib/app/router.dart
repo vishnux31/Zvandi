@@ -48,10 +48,10 @@ final appRouter = GoRouter(
       path: '/',
       builder: (context, state) => const HomeScreen(),
     ),
-    GoRoute(
-      path: '/bike/new',
-      builder: (context, state) => const BikeFormScreen(),
-    ),
+    // Note: there is no `/bike/new` route — adding a bike is done through
+    // the inline `showAddBikeDialog(context)` from Home / Garage so the
+    // onboarding setup dialog can chain cleanly after it. Editing an
+    // existing bike goes through `/bike/:id/edit`.
     GoRoute(
       path: '/bike/:id',
       builder: (context, state) =>

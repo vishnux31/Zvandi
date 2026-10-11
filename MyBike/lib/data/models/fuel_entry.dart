@@ -11,8 +11,9 @@ class FuelEntry {
   final bool fullTank;
   final String? notes;
   final DateTime createdAt;
+  final DateTime updatedAt;
 
-  const FuelEntry({
+  FuelEntry({
     required this.id,
     required this.bikeId,
     required this.date,
@@ -22,7 +23,8 @@ class FuelEntry {
     this.fullTank = true,
     this.notes,
     required this.createdAt,
-  });
+    DateTime? updatedAt,
+  }) : updatedAt = updatedAt ?? createdAt;
 
   FuelEntry copyWith({
     DateTime? date,
@@ -32,6 +34,7 @@ class FuelEntry {
     bool clearCost = false,
     bool? fullTank,
     String? notes,
+    DateTime? updatedAt,
   }) {
     return FuelEntry(
       id: id,
@@ -43,6 +46,7 @@ class FuelEntry {
       fullTank: fullTank ?? this.fullTank,
       notes: notes ?? this.notes,
       createdAt: createdAt,
+      updatedAt: updatedAt ?? DateTime.now(),
     );
   }
 
@@ -56,17 +60,24 @@ class FuelEntry {
         'fullTank': fullTank,
         'notes': notes,
         'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String(),
       };
 
-  factory FuelEntry.fromMap(Map<String, dynamic> map) => FuelEntry(
-        id: map['id'] as String,
-        bikeId: map['bikeId'] as String,
-        date: DateTime.parse(map['date'] as String),
-        odometerKm: (map['odometerKm'] as num?)?.toDouble() ?? 0,
-        liters: (map['liters'] as num?)?.toDouble() ?? 0,
-        cost: (map['cost'] as num?)?.toDouble(),
-        fullTank: map['fullTank'] as bool? ?? true,
-        notes: map['notes'] as String?,
-        createdAt: DateTime.parse(map['createdAt'] as String),
-      );
+  factory FuelEntry.fromMap(Map<String, dynamic> map) {
+    final createdAt = DateTime.parse(map['createdAt'] as String);
+    return FuelEntry(
+      id: map['id'] as String,
+      bikeId: map['bikeId'] as String,
+      date: DateTime.parse(map['date'] as String),
+      odometerKm: (map['odometerKm'] as num?)?.toDouble() ?? 0,
+      liters: (map['liters'] as num?)?.toDouble() ?? 0,
+      cost: (map['cost'] as num?)?.toDouble(),
+      fullTank: map['fullTank'] as bool? ?? true,
+      notes: map['notes'] as String?,
+      createdAt: createdAt,
+      updatedAt: map['updatedAt'] == null
+          ? createdAt
+          : DateTime.parse(map['updatedAt'] as String),
+    );
+  }
 }

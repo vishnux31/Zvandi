@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
 
-/// MyBike visual theme: custom high-contrast dark telemetry theme.
+/// MyBike visual theme: a single high-contrast dark telemetry theme.
+/// There is no light variant — the whole UI was designed for the dark
+/// surface palette in [AppColors]. Keep [dark] as the only entry point.
 class AppTheme {
-  static ThemeData light() => _build();
   static ThemeData dark() => _build();
 
   static ThemeData _build() {

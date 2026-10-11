@@ -63,16 +63,23 @@ class _ServiceFormScreenState extends ConsumerState<ServiceFormScreen> {
       if (rec != null) {
         _existing = rec;
         _date = rec.date;
-        _odometer.text = unit.fromKm(rec.odometerKm).round().toString();
+        _odometer.text = formatOdometerForInput(unit.fromKm(rec.odometerKm));
         _cost.text = rec.cost?.toString() ?? '';
-        
-        final notesText = rec.notes ?? '';
-        if (notesText.startsWith('Provider: ')) {
-          final lines = notesText.split('\n');
-          _provider.text = lines.first.replaceFirst('Provider: ', '');
-          _notes.text = lines.skip(1).join('\n');
+        // Prefer the real column; fall back to legacy inline-notes rows
+        // (ServiceRecord.fromMap already migrates these on read, but the
+        // state might have been populated before the migration landed).
+        if (rec.provider != null && rec.provider!.isNotEmpty) {
+          _provider.text = rec.provider!;
+          _notes.text = rec.notes ?? '';
         } else {
-          _notes.text = notesText;
+          final notesText = rec.notes ?? '';
+          if (notesText.startsWith('Provider: ')) {
+            final lines = notesText.split('\n');
+            _provider.text = lines.first.replaceFirst('Provider: ', '').trim();
+            _notes.text = lines.skip(1).join('\n');
+          } else {
+            _notes.text = notesText;
+          }
         }
 
         _setCheckboxForType(rec.type);
@@ -90,7 +97,7 @@ class _ServiceFormScreenState extends ConsumerState<ServiceFormScreen> {
       }
     }
 
-    _odometer.text = unit.fromKm(bike?.odometerKm ?? 0).round().toString();
+    _odometer.text = formatOdometerForInput(unit.fromKm(bike?.odometerKm ?? 0));
   }
 
   void _setCheckboxForType(ServiceType type) {
@@ -160,7 +167,8 @@ class _ServiceFormScreenState extends ConsumerState<ServiceFormScreen> {
     final unit = ref.read(settingsProvider).distanceUnit;
     final odoKm = unit.toKm(odoValue);
 
-    final fullNotes = "Provider: ${_provider.text.trim()}\n${_notes.text.trim()}";
+    final providerText = _provider.text.trim();
+    final notesText = _notes.text.trim();
 
     final checkedTypes = <ServiceType>[];
     if (_oilFilterChange) checkedTypes.add(ServiceType.engineOil);
@@ -175,18 +183,31 @@ class _ServiceFormScreenState extends ConsumerState<ServiceFormScreen> {
     }
 
     if (_isEditing && _existing != null) {
+      // Edit path only touches a single record — preserve its type if the
+      // user kept the same checkbox selected, otherwise swap to the first
+      // checked type. (True multi-type edits are intentionally out of
+      // scope; the create path spreads cost across types.)
+      final newType = checkedTypes.contains(_existing!.type)
+          ? _existing!.type
+          : checkedTypes.first;
       final record = _existing!.copyWith(
-        type: checkedTypes.first,
+        type: newType,
         date: _date,
         odometerKm: odoKm,
         cost: costValue,
-        notes: fullNotes,
+        clearCost: costValue == 0.0,
+        notes: notesText.isEmpty ? null : notesText,
+        provider: providerText.isEmpty ? null : providerText,
+        clearProvider: providerText.isEmpty,
       );
       ref.read(recordsProvider.notifier).save(record);
-      _resetMaintenanceItemsForType(checkedTypes.first, odoKm, _date);
+      _resetMaintenanceItemsForType(newType, odoKm, _date);
     } else {
-      for (int i = 0; i < checkedTypes.length; i++) {
-        final type = checkedTypes[i];
+      // Split cost evenly across every ticked task so the per-type median
+      // in upcomingExpensesProvider stays accurate.
+      final perTaskCost =
+          costValue > 0 ? costValue / checkedTypes.length : null;
+      for (final type in checkedTypes) {
         final record = ServiceRecord(
           id: const Uuid().v4(),
           bikeId: widget.bikeId,
@@ -194,8 +215,9 @@ class _ServiceFormScreenState extends ConsumerState<ServiceFormScreen> {
           type: type,
           date: _date,
           odometerKm: odoKm,
-          cost: i == 0 ? costValue : 0.0,
-          notes: fullNotes,
+          cost: perTaskCost,
+          notes: notesText.isEmpty ? null : notesText,
+          provider: providerText.isEmpty ? null : providerText,
           createdAt: DateTime.now(),
         );
         ref.read(recordsProvider.notifier).save(record);
@@ -286,15 +308,20 @@ class _ServiceFormScreenState extends ConsumerState<ServiceFormScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    TextFormField(
+                    InkWell(
                       key: const ValueKey('service_date_input'),
-                      readOnly: true,
                       onTap: _pickDate,
-                      decoration: const InputDecoration(
-                        labelText: 'Service Date',
-                        suffixIcon: Icon(Icons.calendar_today, color: AppColors.accentCopper),
+                      borderRadius: BorderRadius.circular(14),
+                      child: InputDecorator(
+                        decoration: const InputDecoration(
+                          labelText: 'Service Date',
+                          suffixIcon: Icon(Icons.calendar_today, color: AppColors.accentCopper),
+                        ),
+                        child: Text(
+                          formatDate(_date),
+                          style: const TextStyle(color: Colors.white, fontSize: 16),
+                        ),
                       ),
-                      controller: TextEditingController(text: formatDate(_date)),
                     ),
                     const SizedBox(height: 16),
 

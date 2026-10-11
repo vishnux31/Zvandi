@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
@@ -6,6 +7,18 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../data/local_store.dart';
 import 'reminder_service.dart';
+
+void _report(String context, Object error, StackTrace stack) {
+  debugPrint('$context: $error');
+  // Non-fatal: notification failures must not take the app down, but we
+  // want visibility in Crashlytics.
+  FirebaseCrashlytics.instance.recordError(
+    error,
+    stack,
+    reason: context,
+    fatal: false,
+  );
+}
 
 /// Thin, defensive wrapper around flutter_local_notifications.
 ///
@@ -42,8 +55,8 @@ class NotificationService {
             ),
           );
       _ready = true;
-    } catch (e) {
-      debugPrint('NotificationService init failed: $e');
+    } catch (e, s) {
+      _report('NotificationService init failed', e, s);
     }
   }
 
@@ -58,8 +71,8 @@ class NotificationService {
           .resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(alert: true, badge: true, sound: true);
-    } catch (e) {
-      debugPrint('NotificationService permission request failed: $e');
+    } catch (e, s) {
+      _report('NotificationService permission request failed', e, s);
     }
   }
 
@@ -114,8 +127,8 @@ class NotificationService {
               UILocalNotificationDateInterpretation.absoluteTime,
         );
       }
-    } catch (e) {
-      debugPrint('NotificationService sync failed: $e');
+    } catch (e, s) {
+      _report('NotificationService sync failed', e, s);
     }
   }
 }

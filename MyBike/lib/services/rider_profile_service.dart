@@ -29,14 +29,30 @@ class RiderProfileService {
     return RiderProfile.fromMap(snap.data()!);
   }
 
+  /// Writes [profile] to Firestore. Fields set on [profile] are written as
+  /// their value; optional fields that are explicitly null are written as
+  /// `FieldValue.delete()` so that clearing a field in the UI actually
+  /// removes it on the server (instead of being silently ignored by the
+  /// merge, which was the pre-existing bug).
   Future<void> save(String uid, RiderProfile profile) {
-    return _doc(uid).set(
-      {
-        ...profile.toMap(),
-        'updatedAt': FieldValue.serverTimestamp(),
-      },
-      SetOptions(merge: true),
-    );
+    final map = profile.toMap();
+    final payload = <String, dynamic>{
+      ...map,
+      'updatedAt': FieldValue.serverTimestamp(),
+    };
+    // Optional fields that may legitimately be cleared.
+    for (final field in const [
+      'phone',
+      'profession',
+      'pincode',
+      'state',
+      'city',
+    ]) {
+      if (!map.containsKey(field)) {
+        payload[field] = FieldValue.delete();
+      }
+    }
+    return _doc(uid).set(payload, SetOptions(merge: true));
   }
 }
 

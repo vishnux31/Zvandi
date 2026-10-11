@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -38,16 +39,25 @@ class PincodeService {
     }
 
     final uri = Uri.parse('https://api.postalpincode.in/pincode/$code');
-    final client = HttpClient();
+    // Bound the socket + request so a stalled upstream never spins the UI
+    // forever (previous code had no timeouts anywhere).
+    final client = HttpClient()
+      ..connectionTimeout = const Duration(seconds: 10);
     try {
-      final request = await client.getUrl(uri);
-      final response = await request.close();
+      final request = await client
+          .getUrl(uri)
+          .timeout(const Duration(seconds: 10));
+      final response =
+          await request.close().timeout(const Duration(seconds: 15));
       if (response.statusCode != 200) {
         throw const PincodeLookupException(
           'Could not reach the postal service. Check your connection.',
         );
       }
-      final body = await response.transform(utf8.decoder).join();
+      final body = await response
+          .transform(utf8.decoder)
+          .join()
+          .timeout(const Duration(seconds: 10));
       final json = jsonDecode(body) as List<dynamic>;
       if (json.isEmpty) {
         throw const PincodeLookupException('PIN code not found.');
@@ -79,6 +89,10 @@ class PincodeService {
     } on SocketException {
       throw const PincodeLookupException(
         'No internet connection. PIN lookup needs network access.',
+      );
+    } on TimeoutException {
+      throw const PincodeLookupException(
+        'The PIN lookup took too long. Try again on a faster network.',
       );
     } catch (_) {
       throw const PincodeLookupException(

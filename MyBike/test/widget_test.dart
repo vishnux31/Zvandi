@@ -25,6 +25,18 @@ void main() {
     expect(restored.name, 'Daily');
     expect(restored.type, BikeType.sport);
     expect(restored.odometerKm, 1234);
+    expect(restored.updatedAt, DateTime(2024, 1, 1));
+  });
+
+  test('bike legacy row without updatedAt falls back to createdAt', () {
+    final restored = Bike.fromMap({
+      'id': 'b1',
+      'name': 'Legacy',
+      'type': 'commuter',
+      'odometerKm': 100,
+      'createdAt': '2024-01-01T00:00:00.000',
+    });
+    expect(restored.updatedAt, DateTime.parse('2024-01-01T00:00:00.000'));
   });
 
   test('maintenance item reports overdue usage', () {

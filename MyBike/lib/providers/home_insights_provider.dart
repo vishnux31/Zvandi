@@ -35,19 +35,30 @@ FuelEconomyTrend? _fuelEconomyTrend(List<FuelEntry> entries, DateTime now) {
   final thisMonthSamples = <double>[];
   final lastMonthSamples = <double>[];
 
-  for (var i = 1; i < sorted.length; i++) {
-    final prev = sorted[i - 1];
-    final cur = sorted[i];
-    final deltaKm = cur.odometerKm - prev.odometerKm;
-    if (deltaKm <= 0 || cur.liters <= 0) continue;
-
-    final key = DateTime(cur.date.year, cur.date.month);
-    final economy = deltaKm / cur.liters;
-    if (key == thisMonthKey) {
-      thisMonthSamples.add(economy);
-    } else if (key == lastMonthKey) {
-      lastMonthSamples.add(economy);
+  // Walk full-tank → full-tank segments only; partial fills roll litres into
+  // the open segment but don't close one.
+  FuelEntry? segmentStart;
+  double litresInSegment = 0;
+  for (final cur in sorted) {
+    if (segmentStart == null) {
+      if (cur.fullTank) segmentStart = cur;
+      continue;
     }
+    litresInSegment += cur.liters;
+    if (!cur.fullTank) continue;
+
+    final deltaKm = cur.odometerKm - segmentStart.odometerKm;
+    if (deltaKm > 0 && litresInSegment > 0) {
+      final economy = deltaKm / litresInSegment;
+      final key = DateTime(cur.date.year, cur.date.month);
+      if (key == thisMonthKey) {
+        thisMonthSamples.add(economy);
+      } else if (key == lastMonthKey) {
+        lastMonthSamples.add(economy);
+      }
+    }
+    segmentStart = cur;
+    litresInSegment = 0;
   }
 
   if (thisMonthSamples.isEmpty || lastMonthSamples.isEmpty) return null;

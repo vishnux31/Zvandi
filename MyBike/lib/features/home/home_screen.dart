@@ -16,6 +16,7 @@ import 'home_tab.dart';
 import 'learn_tab.dart';
 import 'reminders_tab.dart';
 import 'widgets/bike_selector_dropdown.dart';
+import 'widgets/email_verification_banner.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -149,7 +150,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           const SizedBox(width: 8),
         ],
       ),
-      body: IndexedStack(index: index, children: tabs),
+      body: Column(
+        children: [
+          const EmailVerificationBanner(),
+          Expanded(child: IndexedStack(index: index, children: tabs)),
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
         key: const ValueKey('bottom_nav_bar'),
         selectedIndex: index,

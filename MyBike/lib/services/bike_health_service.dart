@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/models/bike.dart';
 import '../data/models/enums.dart';
 import '../data/models/maintenance_schedule.dart';
 import '../providers/app_providers.dart';
@@ -94,16 +93,17 @@ Map<BikeComponentGroup, double> componentWeightsFromProfile(
   };
 }
 
-/// Score for one component group (0–100). Uses the worst wear among tracked
-/// items in that group so a single overdue sub-item does not dominate alone.
-int componentGroupScore(
+/// Score for one component group (0–100), or `null` when the user has not
+/// tracked any item in that group yet — in which case we must not show "100%
+/// Healthy" because we have no data to back that claim.
+int? componentGroupScore(
   List<ReminderInfo> reminders,
   BikeComponentGroup group,
 ) {
   final types = componentGroupServiceTypes[group]!;
   final matches =
       reminders.where((r) => types.contains(r.item.type)).toList();
-  if (matches.isEmpty) return 100;
+  if (matches.isEmpty) return null;
 
   var maxWear = 0.0;
   for (final reminder in matches) {
@@ -112,13 +112,15 @@ int componentGroupScore(
   return (100 - (maxWear * 100).clamp(0, 100)).round();
 }
 
-/// Overall bike health as a weighted average of all four component groups.
-/// Weights come from the brand/model maintenance schedule when available.
-int overallHealthPercent(
+/// Overall bike health as a weighted average of the tracked component
+/// groups. Groups with no tracked items are excluded entirely so the
+/// headline figure reflects only measured data; returns `null` when the
+/// rider hasn't tracked anything yet.
+int? overallHealthPercent(
   List<ReminderInfo> reminders, {
   BikeMaintenanceProfile? profile,
 }) {
-  if (reminders.isEmpty) return 100;
+  if (reminders.isEmpty) return null;
 
   final weights = profile != null
       ? componentWeightsFromProfile(profile)
@@ -128,17 +130,18 @@ int overallHealthPercent(
   var totalWeight = 0.0;
 
   for (final group in BikeComponentGroup.values) {
-    final weight = weights[group] ?? 0.25;
     final score = componentGroupScore(reminders, group);
+    if (score == null) continue;
+    final weight = weights[group] ?? 0.25;
     weightedSum += score * weight;
     totalWeight += weight;
   }
 
-  if (totalWeight <= 0) return 100;
+  if (totalWeight <= 0) return null;
   return (weightedSum / totalWeight).round();
 }
 
-final bikeOverallHealthProvider = Provider.family<int, String>((ref, bikeId) {
+final bikeOverallHealthProvider = Provider.family<int?, String>((ref, bikeId) {
   final bike = ref.watch(bikeByIdProvider(bikeId));
   final reminders = ref.watch(remindersForBikeProvider(bikeId));
   final profile = bike != null
@@ -148,7 +151,7 @@ final bikeOverallHealthProvider = Provider.family<int, String>((ref, bikeId) {
 });
 
 final bikeComponentScoresProvider =
-    Provider.family<Map<BikeComponentGroup, int>, String>((ref, bikeId) {
+    Provider.family<Map<BikeComponentGroup, int?>, String>((ref, bikeId) {
   final reminders = ref.watch(remindersForBikeProvider(bikeId));
   return {
     for (final group in BikeComponentGroup.values)

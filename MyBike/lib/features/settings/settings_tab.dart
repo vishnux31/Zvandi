@@ -10,6 +10,8 @@ import '../../data/models/enums.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/settings_provider.dart';
 import '../../services/auth_service.dart';
+import '../../services/cloud_sync_service.dart';
+import '../../services/export_service.dart';
 import '../../services/notification_service.dart';
 import '../../services/pincode_service.dart';
 import '../../services/reminder_service.dart';
@@ -22,7 +24,6 @@ class SettingsTab extends ConsumerStatefulWidget {
 }
 
 class _SettingsTabState extends ConsumerState<SettingsTab> {
-  late String _tempUnit;
   late bool _criticalAlerts;
   late bool _maintenanceReminders;
 
@@ -30,7 +31,6 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
   void initState() {
     super.initState();
     final box = Hive.box(Boxes.settings);
-    _tempUnit = box.get('tempUnit', defaultValue: '°C') as String;
     _criticalAlerts = box.get('criticalAlertsEnabled', defaultValue: true) as bool;
     _maintenanceReminders = box.get('maintenanceRemindersEnabled', defaultValue: true) as bool;
   }
@@ -48,6 +48,102 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
       barrierDismissible: false,
       builder: (context) => _RiderEditDialog(initial: settings),
     );
+  }
+
+  Future<void> _exportData() async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final result = await ref.read(exportServiceProvider).exportAll();
+      if (!mounted) return;
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            'Exported to:\n${result.servicePath}\n${result.fuelPath}',
+          ),
+          duration: const Duration(seconds: 6),
+        ),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      messenger.showSnackBar(
+        const SnackBar(content: Text("Couldn't export data. Try again.")),
+      );
+    }
+  }
+
+  Future<void> _confirmAndSignOut() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Sign out?'),
+        content: const Text(
+          "Your bike history is kept in the cloud under your account and "
+          "will come back the next time you sign in. Local data on this "
+          "device will be cleared.",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Sign out'),
+          ),
+        ],
+      ),
+    );
+    if (confirm == true) {
+      await ref.read(authServiceProvider).signOut();
+    }
+  }
+
+  Future<void> _confirmAndDeleteAccount() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete account?'),
+        content: const Text(
+          "This permanently deletes your account and every bike, "
+          "maintenance item, service record and fuel entry stored under "
+          "it, both on this device and in the cloud. This cannot be "
+          "undone.",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: AppColors.dangerRed),
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Delete account'),
+          ),
+        ],
+      ),
+    );
+    if (confirm != true) return;
+    if (!mounted) return;
+
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      // Order matters: wipe remote data while we still have an auth token,
+      // then delete the Firebase Auth user, then let the auth listener in
+      // MyBikeApp clear the local Hive stores via sync.stop().
+      await ref.read(cloudSyncProvider).deleteRemoteUserData();
+      await ref.read(authServiceProvider).deleteCurrentUser();
+    } catch (e) {
+      // Most common cause: Firebase requires a fresh login before deleting.
+      if (!mounted) return;
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Please sign out and sign in again, then retry Delete account.',
+          ),
+        ),
+      );
+      return;
+    }
   }
 
   @override
@@ -176,51 +272,6 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-
-                  // Temperature
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Row(
-                        children: [
-                          Icon(Icons.thermostat, color: AppColors.labelZinc, size: 20),
-                          SizedBox(width: 12),
-                          Text(
-                            "Temperature Unit",
-                            style: TextStyle(color: Colors.white, fontSize: 15),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.darkBlack,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.outlineGray),
-                        ),
-                        child: Row(
-                          children: [
-                            _UnitToggleBtn(
-                              label: "°C",
-                              isSelected: _tempUnit == "°C",
-                              onTap: () {
-                                setState(() => _tempUnit = "°C");
-                                box.put('tempUnit', "°C");
-                              },
-                            ),
-                            _UnitToggleBtn(
-                              label: "°F",
-                              isSelected: _tempUnit == "°F",
-                              onTap: () {
-                                setState(() => _tempUnit = "°F");
-                                box.put('tempUnit', "°F");
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -275,30 +326,34 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
           ),
           const SizedBox(height: 20),
 
+          // Data export
+          OutlinedButton.icon(
+            key: const ValueKey('export_data_button'),
+            onPressed: _exportData,
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: AppColors.outlineGray),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 14),
+            ),
+            icon: const Icon(Icons.file_download_outlined,
+                color: Colors.white),
+            label: const Text(
+              "Export service + fuel history (CSV)",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+
           // Sign Out Button
           OutlinedButton.icon(
             key: const ValueKey('sign_out_button'),
-            onPressed: () async {
-              final confirm = await showDialog<bool>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Sign out?'),
-                  content: const Text(
-                      'Your data stays safely in the cloud and will be restored when you sign back in.'),
-                  actions: [
-                    TextButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        child: const Text('Cancel')),
-                    FilledButton(
-                        onPressed: () => Navigator.pop(context, true),
-                        child: const Text('Sign out')),
-                  ],
-                ),
-              );
-              if (confirm == true) {
-                await ref.read(authServiceProvider).signOut();
-              }
-            },
+            onPressed: () => _confirmAndSignOut(),
             style: OutlinedButton.styleFrom(
               side: BorderSide(color: AppColors.dangerRed.withValues(alpha: 0.5)),
               shape: RoundedRectangleBorder(
@@ -311,6 +366,20 @@ class _SettingsTabState extends ConsumerState<SettingsTab> {
             label: const Text(
               "Sign Out",
               style: TextStyle(color: AppColors.dangerRed, fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextButton.icon(
+            key: const ValueKey('delete_account_button'),
+            onPressed: () => _confirmAndDeleteAccount(),
+            icon: const Icon(Icons.delete_forever, color: AppColors.dangerRed),
+            label: const Text(
+              "Delete account",
+              style: TextStyle(
+                color: AppColors.dangerRed,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
             ),
           ),
           const SizedBox(height: 40),

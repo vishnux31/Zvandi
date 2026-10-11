@@ -46,10 +46,10 @@ class HomeTab extends ConsumerWidget {
     final nextDue = calculateEarliestNextDue(reminders, unit);
     final criticalAlerts = reminders.where((r) => r.status == ReminderStatus.overdue).toList();
 
-    final engineScore = componentScores[BikeComponentGroup.engine] ?? 100;
-    final chainScore = componentScores[BikeComponentGroup.chain] ?? 100;
-    final brakesScore = componentScores[BikeComponentGroup.brakes] ?? 100;
-    final tyresScore = componentScores[BikeComponentGroup.tyres] ?? 100;
+    final engineScore = componentScores[BikeComponentGroup.engine];
+    final chainScore = componentScores[BikeComponentGroup.chain];
+    final brakesScore = componentScores[BikeComponentGroup.brakes];
+    final tyresScore = componentScores[BikeComponentGroup.tyres];
 
     return Scaffold(
       body: ListView(
@@ -93,7 +93,7 @@ class HomeTab extends ConsumerWidget {
 
 class _BikeHeroCard extends StatelessWidget {
   final Bike bike;
-  final int healthPercent;
+  final int? healthPercent;
   final DistanceUnit unit;
 
   const _BikeHeroCard({
@@ -129,39 +129,40 @@ class _BikeHeroCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppColors.safeGreen.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: AppColors.safeGreen.withValues(alpha: 0.3),
-                        width: 1.0,
+                  if (healthPercent != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: AppColors.safeGreen.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: AppColors.safeGreen.withValues(alpha: 0.3),
+                          width: 1.0,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 6,
+                            height: 6,
+                            decoration: const BoxDecoration(
+                              color: AppColors.safeGreen,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            "${healthPercent!}% Health",
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.safeGreen,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 6,
-                          height: 6,
-                          decoration: const BoxDecoration(
-                            color: AppColors.safeGreen,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          "$healthPercent% Health",
-                          style: const TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.safeGreen,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   const SizedBox(height: 16),
                   Text(
                     bike.name,
@@ -233,7 +234,7 @@ class _HeroBackgroundPainter extends CustomPainter {
 }
 
 class _TelemetryDashboardSection extends StatelessWidget {
-  final int healthPercent;
+  final int? healthPercent;
   final EarliestNextDue nextDue;
 
   const _TelemetryDashboardSection({
@@ -243,9 +244,12 @@ class _TelemetryDashboardSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final healthColor = healthPercent >= 80
-        ? AppColors.safeGreen
-        : (healthPercent >= 60 ? AppColors.warningAmber : AppColors.dangerRed);
+    final h = healthPercent;
+    final healthColor = h == null
+        ? AppColors.subtextZinc
+        : h >= 80
+            ? AppColors.safeGreen
+            : (h >= 60 ? AppColors.warningAmber : AppColors.dangerRed);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -266,7 +270,7 @@ class _TelemetryDashboardSection extends StatelessWidget {
                   CustomPaint(
                     size: const Size(100, 100),
                     painter: _GaugePainter(
-                      progress: healthPercent / 100.0,
+                      progress: h == null ? 0 : h / 100.0,
                       progressColor: healthColor,
                       trackColor: AppColors.surfaceLight,
                     ),
@@ -275,7 +279,7 @@ class _TelemetryDashboardSection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "$healthPercent%",
+                        h == null ? "—" : "$h%",
                         style: const TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
@@ -306,16 +310,24 @@ class _TelemetryDashboardSection extends StatelessWidget {
                     Expanded(
                       child: _StatTile(
                         title: "Status",
-                        value: healthPercent >= 75 ? "Healthy" : "Troubled",
-                        color: healthPercent >= 75 ? AppColors.safeGreen : AppColors.warningAmber,
+                        value: h == null
+                            ? "No data"
+                            : (h >= 75 ? "Healthy" : "Troubled"),
+                        color: h == null
+                            ? AppColors.subtextZinc
+                            : (h >= 75 ? AppColors.safeGreen : AppColors.warningAmber),
                       ),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: _StatTile(
                         title: "Readiness",
-                        value: healthPercent >= 70 ? "Safe Ride" : "Inspect",
-                        color: healthPercent >= 70 ? AppColors.safeGreen : AppColors.dangerRed,
+                        value: h == null
+                            ? "Set up"
+                            : (h >= 70 ? "Safe Ride" : "Inspect"),
+                        color: h == null
+                            ? AppColors.subtextZinc
+                            : (h >= 70 ? AppColors.safeGreen : AppColors.dangerRed),
                       ),
                     ),
                   ],
@@ -454,10 +466,10 @@ class _StatTile extends StatelessWidget {
 
 class _ComponentHealthSection extends StatelessWidget {
   final String bikeId;
-  final int engineScore;
-  final int chainScore;
-  final int brakesScore;
-  final int tyresScore;
+  final int? engineScore;
+  final int? chainScore;
+  final int? brakesScore;
+  final int? tyresScore;
 
   const _ComponentHealthSection({
     required this.bikeId,
@@ -531,7 +543,7 @@ class _ComponentHealthSection extends StatelessWidget {
 
 class _ComponentRow extends StatelessWidget {
   final String name;
-  final int score;
+  final int? score;
   final IconData icon;
 
   const _ComponentRow({
@@ -542,9 +554,12 @@ class _ComponentRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progressColor = score >= 80
-        ? AppColors.safeGreen
-        : (score >= 50 ? AppColors.warningAmber : AppColors.dangerRed);
+    final s = score;
+    final progressColor = s == null
+        ? AppColors.subtextZinc
+        : s >= 80
+            ? AppColors.safeGreen
+            : (s >= 50 ? AppColors.warningAmber : AppColors.dangerRed);
 
     return Row(
       children: [
@@ -569,7 +584,7 @@ class _ComponentRow extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "$score%",
+                    s == null ? "—" : "$s%",
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -582,7 +597,9 @@ class _ComponentRow extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(3),
                 child: LinearProgressIndicator(
-                  value: score / 100.0,
+                  // 0 bar when untracked so the user sees "nothing measured"
+                  // rather than a false green fill.
+                  value: s == null ? 0 : s / 100.0,
                   color: progressColor,
                   backgroundColor: AppColors.darkBlack,
                   minHeight: 6,
@@ -614,11 +631,17 @@ class _SmartInsightsSection extends ConsumerWidget {
     final trend = ref.watch(fuelEconomyTrendProvider(bikeId));
     final unit = ref.watch(settingsProvider).distanceUnit;
 
-    // Worst-scoring component group, if any is below a "needs attention"
-    // threshold — real wear data, not a scripted chain warning.
+    // Worst-scoring tracked component group, if any is below a
+    // "needs attention" threshold. Untracked groups (score == null) are
+    // skipped so we don't surface a "0% engine" alert for a user who
+    // simply hasn't tracked the engine yet.
     MapEntry<BikeComponentGroup, int>? worst;
     for (final entry in scores.entries) {
-      if (worst == null || entry.value < worst.value) worst = entry;
+      final v = entry.value;
+      if (v == null) continue;
+      if (worst == null || v < worst.value) {
+        worst = MapEntry(entry.key, v);
+      }
     }
 
     String? wearInsight;

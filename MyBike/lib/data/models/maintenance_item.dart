@@ -24,8 +24,9 @@ class MaintenanceItem {
 
   final String? notes;
   final DateTime createdAt;
+  final DateTime updatedAt;
 
-  const MaintenanceItem({
+  MaintenanceItem({
     required this.id,
     required this.bikeId,
     required this.name,
@@ -36,7 +37,8 @@ class MaintenanceItem {
     required this.lastServiceDate,
     this.notes,
     required this.createdAt,
-  });
+    DateTime? updatedAt,
+  }) : updatedAt = updatedAt ?? createdAt;
 
   double? get nextDueOdometerKm =>
       intervalKm == null ? null : lastServiceOdometerKm + intervalKm!;
@@ -81,6 +83,7 @@ class MaintenanceItem {
     double? lastServiceOdometerKm,
     DateTime? lastServiceDate,
     String? notes,
+    DateTime? updatedAt,
   }) {
     return MaintenanceItem(
       id: id,
@@ -95,6 +98,7 @@ class MaintenanceItem {
       lastServiceDate: lastServiceDate ?? this.lastServiceDate,
       notes: notes ?? this.notes,
       createdAt: createdAt,
+      updatedAt: updatedAt ?? DateTime.now(),
     );
   }
 
@@ -109,22 +113,29 @@ class MaintenanceItem {
         'lastServiceDate': lastServiceDate.toIso8601String(),
         'notes': notes,
         'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String(),
       };
 
-  factory MaintenanceItem.fromMap(Map<String, dynamic> map) => MaintenanceItem(
-        id: map['id'] as String,
-        bikeId: map['bikeId'] as String,
-        name: map['name'] as String,
-        type: ServiceType.values.firstWhere(
-          (e) => e.name == map['type'],
-          orElse: () => ServiceType.other,
-        ),
-        intervalKm: (map['intervalKm'] as num?)?.toDouble(),
-        intervalMonths: map['intervalMonths'] as int?,
-        lastServiceOdometerKm:
-            (map['lastServiceOdometerKm'] as num?)?.toDouble() ?? 0,
-        lastServiceDate: DateTime.parse(map['lastServiceDate'] as String),
-        notes: map['notes'] as String?,
-        createdAt: DateTime.parse(map['createdAt'] as String),
-      );
+  factory MaintenanceItem.fromMap(Map<String, dynamic> map) {
+    final createdAt = DateTime.parse(map['createdAt'] as String);
+    return MaintenanceItem(
+      id: map['id'] as String,
+      bikeId: map['bikeId'] as String,
+      name: map['name'] as String,
+      type: ServiceType.values.firstWhere(
+        (e) => e.name == map['type'],
+        orElse: () => ServiceType.other,
+      ),
+      intervalKm: (map['intervalKm'] as num?)?.toDouble(),
+      intervalMonths: map['intervalMonths'] as int?,
+      lastServiceOdometerKm:
+          (map['lastServiceOdometerKm'] as num?)?.toDouble() ?? 0,
+      lastServiceDate: DateTime.parse(map['lastServiceDate'] as String),
+      notes: map['notes'] as String?,
+      createdAt: createdAt,
+      updatedAt: map['updatedAt'] == null
+          ? createdAt
+          : DateTime.parse(map['updatedAt'] as String),
+    );
+  }
 }

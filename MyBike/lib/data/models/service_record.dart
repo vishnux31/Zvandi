@@ -12,9 +12,11 @@ class ServiceRecord {
   final double odometerKm;
   final double? cost;
   final String? notes;
+  final String? provider;
   final DateTime createdAt;
+  final DateTime updatedAt;
 
-  const ServiceRecord({
+  ServiceRecord({
     required this.id,
     required this.bikeId,
     this.itemId,
@@ -23,8 +25,10 @@ class ServiceRecord {
     required this.odometerKm,
     this.cost,
     this.notes,
+    this.provider,
     required this.createdAt,
-  });
+    DateTime? updatedAt,
+  }) : updatedAt = updatedAt ?? createdAt;
 
   ServiceRecord copyWith({
     String? itemId,
@@ -35,6 +39,9 @@ class ServiceRecord {
     double? cost,
     bool clearCost = false,
     String? notes,
+    String? provider,
+    bool clearProvider = false,
+    DateTime? updatedAt,
   }) {
     return ServiceRecord(
       id: id,
@@ -45,7 +52,9 @@ class ServiceRecord {
       odometerKm: odometerKm ?? this.odometerKm,
       cost: clearCost ? null : (cost ?? this.cost),
       notes: notes ?? this.notes,
+      provider: clearProvider ? null : (provider ?? this.provider),
       createdAt: createdAt,
+      updatedAt: updatedAt ?? DateTime.now(),
     );
   }
 
@@ -58,21 +67,50 @@ class ServiceRecord {
         'odometerKm': odometerKm,
         'cost': cost,
         'notes': notes,
+        'provider': provider,
         'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String(),
       };
 
-  factory ServiceRecord.fromMap(Map<String, dynamic> map) => ServiceRecord(
-        id: map['id'] as String,
-        bikeId: map['bikeId'] as String,
-        itemId: map['itemId'] as String?,
-        type: ServiceType.values.firstWhere(
-          (e) => e.name == map['type'],
-          orElse: () => ServiceType.other,
-        ),
-        date: DateTime.parse(map['date'] as String),
-        odometerKm: (map['odometerKm'] as num?)?.toDouble() ?? 0,
-        cost: (map['cost'] as num?)?.toDouble(),
-        notes: map['notes'] as String?,
-        createdAt: DateTime.parse(map['createdAt'] as String),
-      );
+  factory ServiceRecord.fromMap(Map<String, dynamic> map) {
+    final createdAt = DateTime.parse(map['createdAt'] as String);
+    final rawNotes = map['notes'] as String?;
+    final rawProvider = map['provider'] as String?;
+
+    // Legacy migration: older rows stored provider inline in the notes as
+    // "Provider: X\n{notes}". Split on read so new readers see them as
+    // separate fields.
+    String? migratedProvider = rawProvider;
+    String? migratedNotes = rawNotes;
+    if (rawProvider == null && rawNotes != null && rawNotes.startsWith('Provider: ')) {
+      final newlineIdx = rawNotes.indexOf('\n');
+      if (newlineIdx > 0) {
+        migratedProvider = rawNotes.substring('Provider: '.length, newlineIdx).trim();
+        migratedNotes = rawNotes.substring(newlineIdx + 1).trim();
+      } else {
+        migratedProvider = rawNotes.substring('Provider: '.length).trim();
+        migratedNotes = '';
+      }
+      if (migratedNotes.isEmpty) migratedNotes = null;
+    }
+
+    return ServiceRecord(
+      id: map['id'] as String,
+      bikeId: map['bikeId'] as String,
+      itemId: map['itemId'] as String?,
+      type: ServiceType.values.firstWhere(
+        (e) => e.name == map['type'],
+        orElse: () => ServiceType.other,
+      ),
+      date: DateTime.parse(map['date'] as String),
+      odometerKm: (map['odometerKm'] as num?)?.toDouble() ?? 0,
+      cost: (map['cost'] as num?)?.toDouble(),
+      notes: migratedNotes,
+      provider: migratedProvider,
+      createdAt: createdAt,
+      updatedAt: map['updatedAt'] == null
+          ? createdAt
+          : DateTime.parse(map['updatedAt'] as String),
+    );
+  }
 }

@@ -40,7 +40,7 @@ class _BikeDetailScreenState extends ConsumerState<BikeDetailScreen>
     final bike = ref.read(bikeByIdProvider(widget.bikeId));
     if (bike == null) return;
     final controller = TextEditingController(
-        text: unit.fromKm(bike.odometerKm).round().toString());
+        text: formatOdometerForInput(unit.fromKm(bike.odometerKm)));
     final result = await showDialog<double>(
       context: context,
       builder: (context) => AlertDialog(
@@ -72,6 +72,48 @@ class _BikeDetailScreenState extends ConsumerState<BikeDetailScreen>
       ref
           .read(bikesProvider.notifier)
           .save(bike.copyWith(odometerKm: result));
+    }
+  }
+
+  Future<void> _confirmAndDeleteBike() async {
+    final bike = ref.read(bikeByIdProvider(widget.bikeId));
+    if (bike == null) return;
+    final counts = <String, int>{
+      'items': ref.read(itemsForBikeProvider(widget.bikeId)).length,
+      'records': ref.read(recordsForBikeProvider(widget.bikeId)).length,
+      'fuel': ref.read(fuelForBikeProvider(widget.bikeId)).length,
+    };
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Delete ${bike.name}?'),
+        content: Text(
+          'This permanently removes ${bike.name} and every linked record:\n\n'
+          '• ${counts['items']} tracked maintenance item(s)\n'
+          '• ${counts['records']} service record(s)\n'
+          '• ${counts['fuel']} fuel entry(ies)\n\n'
+          'This cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (confirm != true) return;
+    await ref.read(bikesProvider.notifier).removeCascade(widget.bikeId);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${bike.name} deleted')),
+      );
+      context.pop();
     }
   }
 
@@ -130,6 +172,28 @@ class _BikeDetailScreenState extends ConsumerState<BikeDetailScreen>
               IconButton(
                 icon: const Icon(Icons.edit_outlined),
                 onPressed: () => context.push('/bike/${bike.id}/edit'),
+              ),
+              PopupMenuButton<String>(
+                key: const ValueKey('bike_detail_overflow_menu'),
+                icon: const Icon(Icons.more_vert),
+                onSelected: (value) async {
+                  if (value == 'delete') {
+                    await _confirmAndDeleteBike();
+                  }
+                },
+                itemBuilder: (_) => const [
+                  PopupMenuItem(
+                    value: 'delete',
+                    child: Row(
+                      children: [
+                        Icon(Icons.delete_outline, color: Colors.red),
+                        SizedBox(width: 8),
+                        Text('Delete bike',
+                            style: TextStyle(color: Colors.red)),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
             flexibleSpace: FlexibleSpaceBar(
@@ -310,8 +374,9 @@ class _ComponentsTab extends ConsumerWidget {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                     ),
-                    _ComponentStatusDropdown(
-                      onDone: () => onMarkDone(r.item),
+                    _MarkDoneButton(
+                      status: r.status,
+                      onPressed: () => onMarkDone(r.item),
                     ),
                     PopupMenuButton<String>(
                       onSelected: (v) {
@@ -348,63 +413,34 @@ class _ComponentsTab extends ConsumerWidget {
   }
 }
 
-enum _ComponentStatus { todo, done }
+/// One-shot "mark as serviced" action per row. Replaces the old dropdown
+/// that persisted a transient Todo/Done state in widget memory — which
+/// looked right until a rebuild snapped it back to "To do".
+class _MarkDoneButton extends StatelessWidget {
+  final ReminderStatus status;
+  final Future<void> Function() onPressed;
 
-class _ComponentStatusDropdown extends StatefulWidget {
-  final Future<void> Function() onDone;
-  const _ComponentStatusDropdown({required this.onDone});
-
-  @override
-  State<_ComponentStatusDropdown> createState() =>
-      _ComponentStatusDropdownState();
-}
-
-class _ComponentStatusDropdownState extends State<_ComponentStatusDropdown> {
-  _ComponentStatus _status = _ComponentStatus.todo;
+  const _MarkDoneButton({required this.status, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final isDone = _status == _ComponentStatus.done;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: BoxDecoration(
-        color: isDone
-            ? scheme.primaryContainer.withValues(alpha: 0.5)
-            : scheme.surfaceContainerHighest.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: scheme.outlineVariant),
+    final color = switch (status) {
+      ReminderStatus.overdue => scheme.error,
+      ReminderStatus.due => AppColors.primaryOrange,
+      ReminderStatus.soon => AppColors.warningAmber,
+      ReminderStatus.ok => AppColors.safeGreen,
+    };
+    return TextButton.icon(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        foregroundColor: color,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<_ComponentStatus>(
-          value: _status,
-          isDense: true,
-          borderRadius: BorderRadius.circular(12),
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: scheme.onSurface,
-          ),
-          items: const [
-            DropdownMenuItem(
-              value: _ComponentStatus.todo,
-              child: Text('To do'),
-            ),
-            DropdownMenuItem(
-              value: _ComponentStatus.done,
-              child: Text('Done'),
-            ),
-          ],
-          onChanged: (value) async {
-            if (value == _ComponentStatus.done) {
-              await widget.onDone();
-              if (mounted) setState(() => _status = _ComponentStatus.todo);
-            } else if (value != null) {
-              setState(() => _status = value);
-            }
-          },
-        ),
+      icon: const Icon(Icons.check_circle_outline, size: 18),
+      label: const Text(
+        'Mark serviced',
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -440,29 +476,78 @@ class _HistoryTab extends ConsumerWidget {
         final r = records[i];
         final title =
             (r.notes != null && r.notes!.isNotEmpty) ? r.notes! : r.type.label;
-        return Card(
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor:
-                  Theme.of(context).colorScheme.secondaryContainer,
-              child: Icon(r.type.icon,
-                  color: Theme.of(context).colorScheme.onSecondaryContainer),
-            ),
-            title: Text(title,
-                style: const TextStyle(fontWeight: FontWeight.w600)),
-            subtitle: Text(
-              '${r.type.label} • ${formatDate(r.date)} • ${formatDistance(r.odometerKm, settings.distanceUnit)}',
-            ),
-            trailing: r.cost == null
-                ? null
-                : Text(
-                    formatCost(r.cost!),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+        return Dismissible(
+          key: ValueKey('service_record_${r.id}'),
+          direction: DismissDirection.endToStart,
+          background: const _DeleteSwipeBackground(),
+          confirmDismiss: (_) async {
+            final confirm = await showDialog<bool>(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: const Text('Delete service record?'),
+                content: Text(
+                  'This permanently deletes the ${r.type.label} record from '
+                  '${formatDate(r.date)}.',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx, false),
+                    child: const Text('Cancel'),
                   ),
-            onTap: () => context.push('/bike/$bikeId/service/${r.id}'),
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx, true),
+                    child: const Text('Delete',
+                        style: TextStyle(color: Colors.red)),
+                  ),
+                ],
+              ),
+            );
+            return confirm ?? false;
+          },
+          onDismissed: (_) {
+            ref.read(recordsProvider.notifier).remove(r.id);
+          },
+          child: Card(
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor:
+                    Theme.of(context).colorScheme.secondaryContainer,
+                child: Icon(r.type.icon,
+                    color: Theme.of(context).colorScheme.onSecondaryContainer),
+              ),
+              title: Text(title,
+                  style: const TextStyle(fontWeight: FontWeight.w600)),
+              subtitle: Text(
+                '${r.type.label} • ${formatDate(r.date)} • ${formatDistance(r.odometerKm, settings.distanceUnit)}',
+              ),
+              trailing: r.cost == null
+                  ? null
+                  : Text(
+                      formatCost(r.cost!),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+              onTap: () => context.push('/bike/$bikeId/service/${r.id}'),
+            ),
           ),
         );
       },
+    );
+  }
+}
+
+class _DeleteSwipeBackground extends StatelessWidget {
+  const _DeleteSwipeBackground();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.centerRight,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.red.withValues(alpha: 0.25),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: const Icon(Icons.delete_forever, color: Colors.red),
     );
   }
 }
@@ -481,21 +566,26 @@ class _FuelTab extends ConsumerWidget {
     final totalCost = entries.fold<double>(0, (sum, e) => sum + (e.cost ?? 0));
     final totalLiters = entries.fold<double>(0, (sum, e) => sum + e.liters);
 
-    // Compute average economy using odometer delta divided by total liters
-    final sorted = List<FuelEntry>.from(entries)
+    // Fuel economy is only meaningful across full-tank segments: a partial
+    // fill doesn't give us a known baseline, so we can't correctly divide
+    // kilometres by litres across it.
+    final fullTanks = entries.where((e) => e.fullTank).toList()
       ..sort((a, b) => a.odometerKm.compareTo(b.odometerKm));
 
-    // Real economy requires at least two fuel-ups to derive a distance
-    // delta — never fabricate a number when there isn't enough data yet.
     String? fuelEconomy;
-    if (totalLiters > 0 && sorted.length >= 2) {
-      final delta = sorted.last.odometerKm - sorted.first.odometerKm;
-      if (delta > 0) {
+    if (fullTanks.length >= 2) {
+      // Classic method: sum litres consumed between first and last full tank
+      // excluding the first (which only establishes the starting line).
+      final delta = fullTanks.last.odometerKm - fullTanks.first.odometerKm;
+      final litresBurned = fullTanks
+          .skip(1)
+          .fold<double>(0, (sum, e) => sum + e.liters);
+      if (delta > 0 && litresBurned > 0) {
         if (unit == DistanceUnit.km) {
-          fuelEconomy = (delta / totalLiters).toStringAsFixed(1);
+          fuelEconomy = (delta / litresBurned).toStringAsFixed(1);
         } else {
           final miles = delta / 1.609344;
-          final gallons = totalLiters / 3.785411784;
+          final gallons = litresBurned / 3.785411784;
           fuelEconomy = (miles / gallons).toStringAsFixed(1);
         }
       }
@@ -503,16 +593,33 @@ class _FuelTab extends ConsumerWidget {
 
     final economyUnitLabel = unit == DistanceUnit.km ? 'Km/L' : 'mpg';
 
-    // Per-fill-up economy series (real consecutive odometer deltas) for the
-    // trend chart, oldest to newest, capped to the most recent 8 points.
+    // Per-segment economy series for the trend chart. Each segment runs from
+    // one full tank to the next — anything in between is a partial fill and
+    // just adds to the litres burned on that segment.
     final economySegments = <double>[];
-    for (var i = 1; i < sorted.length; i++) {
-      final deltaKm = sorted[i].odometerKm - sorted[i - 1].odometerKm;
-      if (deltaKm <= 0 || sorted[i].liters <= 0) continue;
-      final kmPerL = deltaKm / sorted[i].liters;
-      economySegments.add(
-        unit == DistanceUnit.km ? kmPerL : FuelEconomy.kmPerLiterToMpg(kmPerL),
-      );
+    double litresInSegment = 0;
+    FuelEntry? segmentStart;
+    final chronological = List<FuelEntry>.from(entries)
+      ..sort((a, b) => a.odometerKm.compareTo(b.odometerKm));
+    for (final e in chronological) {
+      if (segmentStart == null) {
+        if (e.fullTank) segmentStart = e;
+        continue;
+      }
+      litresInSegment += e.liters;
+      if (e.fullTank) {
+        final deltaKm = e.odometerKm - segmentStart.odometerKm;
+        if (deltaKm > 0 && litresInSegment > 0) {
+          final kmPerL = deltaKm / litresInSegment;
+          economySegments.add(
+            unit == DistanceUnit.km
+                ? kmPerL
+                : FuelEconomy.kmPerLiterToMpg(kmPerL),
+          );
+        }
+        segmentStart = e;
+        litresInSegment = 0;
+      }
     }
     final economyPoints = economySegments.length > 8
         ? economySegments.sublist(economySegments.length - 8)
@@ -561,7 +668,7 @@ class _FuelTab extends ConsumerWidget {
         if (fuelEconomy == null) ...[
           const SizedBox(height: 6),
           Text(
-            "Add 2+ fuel-ups to calculate economy.",
+            "Add 2+ full-tank fuel-ups to calculate economy.",
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: AppColors.subtextZinc,
                 ),
@@ -645,51 +752,84 @@ class _FuelTab extends ConsumerWidget {
           )
         else
           ...entries.map((log) {
-            return Card(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                leading: const CircleAvatar(
-                  backgroundColor: AppColors.surfaceLight,
-                  radius: 20,
-                  child: Icon(
-                    Icons.local_gas_station,
-                    color: AppColors.accentCopper,
-                    size: 20,
-                  ),
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      (log.notes != null && log.notes!.isNotEmpty)
-                          ? log.notes!
-                          : '—',
-                      style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            return Dismissible(
+              key: ValueKey('fuel_entry_${log.id}'),
+              direction: DismissDirection.endToStart,
+              background: const _DeleteSwipeBackground(),
+              confirmDismiss: (_) async {
+                final confirm = await showDialog<bool>(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text('Delete fuel entry?'),
+                    content: Text(
+                      'This permanently deletes the '
+                      '${log.liters.toStringAsFixed(1)} L entry from '
+                      '${formatDate(log.date)}.',
                     ),
-                    Text(
-                      formatCost(log.cost ?? 0),
-                      style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                  ],
-                ),
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "${formatDate(log.date)} • ${log.liters.toStringAsFixed(1)} Liters",
-                        style: const TextStyle(color: AppColors.subtextZinc),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx, false),
+                        child: const Text('Cancel'),
                       ),
-                      Text(
-                        formatDistance(log.odometerKm, unit),
-                        style: const TextStyle(color: AppColors.subtextZinc),
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx, true),
+                        child: const Text('Delete',
+                            style: TextStyle(color: Colors.red)),
                       ),
                     ],
                   ),
+                );
+                return confirm ?? false;
+              },
+              onDismissed: (_) {
+                ref.read(fuelProvider.notifier).remove(log.id);
+              },
+              child: Card(
+                margin: const EdgeInsets.only(bottom: 10),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  leading: const CircleAvatar(
+                    backgroundColor: AppColors.surfaceLight,
+                    radius: 20,
+                    child: Icon(
+                      Icons.local_gas_station,
+                      color: AppColors.accentCopper,
+                      size: 20,
+                    ),
+                  ),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        (log.notes != null && log.notes!.isNotEmpty)
+                            ? log.notes!
+                            : '—',
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      Text(
+                        formatCost(log.cost ?? 0),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${formatDate(log.date)} • ${log.liters.toStringAsFixed(1)} Liters",
+                          style: const TextStyle(color: AppColors.subtextZinc),
+                        ),
+                        Text(
+                          formatDistance(log.odometerKm, unit),
+                          style: const TextStyle(color: AppColors.subtextZinc),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () => context.push('/bike/$bikeId/fuel/${log.id}'),
                 ),
-                onTap: () => context.push('/bike/$bikeId/fuel/${log.id}'),
               ),
             );
           }),

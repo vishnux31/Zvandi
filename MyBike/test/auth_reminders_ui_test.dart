@@ -38,6 +38,12 @@ class FakeAuthService implements AuthService {
 
   @override
   Future<void> signOut() async {}
+
+  @override
+  Future<void> sendEmailVerificationIfNeeded() async {}
+
+  @override
+  Future<void> deleteCurrentUser() async {}
 }
 
 void main() {

@@ -20,24 +20,23 @@ class GarageTab extends ConsumerStatefulWidget {
 }
 
 class _GarageTabState extends ConsumerState<GarageTab> {
-  String _calculateNextService(WidgetRef ref, String bikeId, int healthPercent) {
+  String _calculateNextService(WidgetRef ref, String bikeId) {
     final reminders = ref.read(remindersForBikeProvider(bikeId));
+    // Overdue iff a real item is overdue — not a derived health threshold.
     final hasOverdue = reminders.any((r) => r.status == ReminderStatus.overdue);
-    if (hasOverdue || healthPercent < 70) {
-      return "Overdue";
-    }
+    if (hasOverdue) return "Overdue";
 
     double? minRemainingKm;
     for (final r in reminders) {
-      if (r.remainingKm != null) {
-        if (minRemainingKm == null || r.remainingKm! < minRemainingKm) {
-          minRemainingKm = r.remainingKm;
-        }
+      final remaining = r.remainingKm;
+      if (remaining == null || remaining <= 0) continue;
+      if (minRemainingKm == null || remaining < minRemainingKm) {
+        minRemainingKm = remaining;
       }
     }
 
     final unit = ref.read(settingsProvider).distanceUnit;
-    if (minRemainingKm != null && minRemainingKm > 0) {
+    if (minRemainingKm != null) {
       return formatDistance(minRemainingKm, unit);
     }
 
@@ -84,11 +83,13 @@ class _GarageTabState extends ConsumerState<GarageTab> {
           ...bikes.map((bike) {
             final isActive = activeBike?.id == bike.id;
             final healthPercent = ref.watch(bikeOverallHealthProvider(bike.id));
-            final nextService = _calculateNextService(ref, bike.id, healthPercent);
+            final nextService = _calculateNextService(ref, bike.id);
 
-            final healthColor = healthPercent >= 80
-                ? AppColors.safeGreen
-                : (healthPercent >= 60 ? AppColors.warningAmber : AppColors.dangerRed);
+            final healthColor = healthPercent == null
+                ? AppColors.subtextZinc
+                : healthPercent >= 80
+                    ? AppColors.safeGreen
+                    : (healthPercent >= 60 ? AppColors.warningAmber : AppColors.dangerRed);
 
             return Card(
               key: ValueKey('bike_card_${bike.id}'),
@@ -148,13 +149,19 @@ class _GarageTabState extends ConsumerState<GarageTab> {
                             child: Row(
                               children: [
                                 Icon(
-                                  healthPercent >= 80 ? Icons.check_circle : Icons.warning,
+                                  healthPercent == null
+                                      ? Icons.help_outline
+                                      : (healthPercent >= 80
+                                          ? Icons.check_circle
+                                          : Icons.warning),
                                   color: healthColor,
                                   size: 12,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  "$healthPercent% Health",
+                                  healthPercent == null
+                                      ? "No data"
+                                      : "$healthPercent% Health",
                                   style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,

@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../core/formatters.dart';
 import '../../core/units.dart';
+// (formatOdometerForInput lives in core/formatters.dart; already imported.)
 import '../../data/models/fuel_entry.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/settings_provider.dart';
@@ -49,14 +50,14 @@ class _FuelFormScreenState extends ConsumerState<FuelFormScreen> {
         _existing = entry;
         _date = entry.date;
         _fullTank = entry.fullTank;
-        _odometer.text = unit.fromKm(entry.odometerKm).round().toString();
+        _odometer.text = formatOdometerForInput(unit.fromKm(entry.odometerKm));
         _liters.text = entry.liters.toString();
         _cost.text = entry.cost?.toString() ?? '';
         _notes.text = entry.notes ?? '';
         return;
       }
     }
-    _odometer.text = unit.fromKm(bike?.odometerKm ?? 0).round().toString();
+    _odometer.text = formatOdometerForInput(unit.fromKm(bike?.odometerKm ?? 0));
   }
 
   @override

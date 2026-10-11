@@ -7,6 +7,7 @@ import '../data/models/maintenance_item.dart';
 import '../data/models/service_record.dart';
 import '../data/repositories/repositories.dart';
 import '../services/cloud_sync_service.dart';
+import 'maintenance_schedule_provider.dart';
 
 /// Which bottom-nav tab is active on [HomeScreen]. Exposed as a provider
 /// (rather than local widget state) so external entry points — the
@@ -36,6 +37,20 @@ class BikesNotifier extends StateNotifier<List<Bike>> {
     await _repo.delete(id);
     state = _repo.getAll();
     await _ref.read(cloudSyncProvider).remove(Boxes.bikes, id);
+  }
+
+  /// Deletes a bike plus every child entity (maintenance items, service
+  /// records, fuel entries) locally and on Firestore. Clears the garage
+  /// selection if it was pointing at this bike.
+  Future<void> removeCascade(String id) async {
+    await _ref.read(itemsProvider.notifier).removeForBike(id);
+    await _ref.read(recordsProvider.notifier).removeForBike(id);
+    await _ref.read(fuelProvider.notifier).removeForBike(id);
+    await remove(id);
+    final selected = _ref.read(garageSelectedBikeIdProvider);
+    if (selected == id) {
+      _ref.read(garageSelectedBikeIdProvider.notifier).state = null;
+    }
   }
 }
 

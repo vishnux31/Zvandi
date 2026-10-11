@@ -1,35 +1,49 @@
-# MyBike - Motorbike Maintenance Tracker
+# MyBike (Z-Vandi) — Motorbike Maintenance Tracker
 
-A cross-platform (Android + iOS) Flutter app to track personal **motorbike**
-maintenance: services, wearing components, reminders, and fuel economy.
+A cross-platform (Android + iOS) Flutter app for Indian riders to track
+personal **motorbike** maintenance: services, wearing components,
+reminders, and fuel economy.
 
-The MVP is **offline-first**: all data is stored on-device (Hive) so the app is
-fully usable with no account and no internet. The data layer is abstracted
-behind repositories so a cloud backend (Firebase) can be dropped in later for
-sync and multi-device backup (see [Roadmap](#roadmap)).
+The app is **auth-gated**: every route lives behind Firebase sign-in so
+data can sync across the rider's devices via Firestore. Local Hive stays
+the synchronous source of truth for the UI (offline-first reads), and
+Firestore is the authoritative server copy.
 
-## Features (MVP)
+## Features
 
-- Multi-bike garage with make/model/year, type, registration and odometer
+- Multi-bike garage with make/model/year, type, registration, odometer,
+  cascade delete.
 - Maintenance items (engine oil, oil filter, air filter, chain & sprocket,
-  tires, brake pads/fluid, coolant, spark plug, battery, valve clearance, etc.)
-  with sensible default service intervals
-- Wear/health bars and prioritized **reminders** driven by distance *or* time
-  ("whichever comes first")
-- Service history log with cost and notes; logging a service auto-resets the
-  linked item's reminder
-- Fuel log with automatic fuel-economy calculation (km/L, L/100km, or mpg)
-- Local notifications for upcoming time-based services
-- km / miles units, currency symbol, light & dark Material 3 theme
+  tires, brake pads/fluid, coolant, spark plug, battery, valve clearance,
+  general service) with sensible default intervals.
+- Wear/health scoring per component group — Engine / Chain / Brakes /
+  Tyres — surfaced as "—" when the rider hasn't tracked that group yet
+  rather than a fake 100%.
+- Prioritised reminders driven by distance *or* time ("whichever comes
+  first"). Overdue reminders promote to the Reminders tab's badge.
+- Service history with provider, cost, odometer, notes and swipe-to-delete.
+- Fuel log with real km/L (or mpg) computed across full-tank segments; a
+  real `fl_chart` efficiency trend line.
+- Local notifications on Android + iOS, gated by Settings toggles for
+  "Critical" vs "Maintenance reminders".
+- FCM device token registration (server-side push isn't shipped in-repo
+  yet — tokens live under `users/{uid}/devices`).
+- CSV export of service + fuel history (Settings → "Export service + fuel
+  history").
+- Delete bike (cascade), delete service / fuel entry (swipe), delete
+  account (cascades Firestore + Firebase user).
+- km / miles units, fixed ₹ currency, Material 3 dark theme.
 
 ## Tech stack
 
-- **Flutter** (Dart) - one codebase for Android + iOS
-- **Riverpod** - state management
-- **go_router** - navigation
-- **Hive** - local offline-first storage
-- **flutter_local_notifications** + **timezone** - reminders
-- **fl_chart**, **intl**, **uuid**
+- **Flutter** (Dart) — one codebase for Android + iOS.
+- **Riverpod** — state management.
+- **go_router** — navigation with Firebase-auth redirect guard.
+- **Hive** — local store (JSON-encoded entities per box).
+- **Firebase** — Auth, Firestore (sync), App Check (anti-abuse),
+  Crashlytics, Cloud Messaging.
+- **flutter_local_notifications** + **timezone** — reminders.
+- **fl_chart**, **intl**, **uuid**, **share_plus**, **path_provider**.
 
 ## Project structure
 
@@ -109,6 +123,35 @@ Planned fast-follows, in priority order:
 
 - iOS notification + Firebase setup requires macOS; build those targets on a Mac
   or in CI.
+
+## Security & remediation
+
+See [GAP_AND_SECURITY_AUDIT.md](GAP_AND_SECURITY_AUDIT.md) for the full
+audit and [MANUAL_ACTIONS.md](MANUAL_ACTIONS.md) for the Firebase Console
+steps that cannot be done from the codebase (SHA registration, App Check
+enforcement, cost alerts, rule deploy).
+
+The P0–P4 remediation pass closed these shipped on the UAT branch:
+Android 13 notifications now work (`POST_NOTIFICATIONS` declared);
+backup / cleartext hardened in the manifest; release builds refuse to
+sign with the debug keystore; "Delete bike" (cascade) and "Delete
+account" (cascades Firestore + Firebase user) added; Crashlytics
+plumbed; onboarding step indicator corrected; entities carry `updatedAt`
+and sync is merge-safe (no last-write-wins stomp); fuel economy honours
+the `fullTank` flag; service form has a real `provider` column and
+splits cost evenly across checked tasks; Component Health shows "—"
+for untracked groups; Garage "Next Svc" only says "Overdue" when
+something is actually overdue; `RiderProfile` field clears use
+`FieldValue.delete()`; Firestore + Storage rules validate field-level
+shape and cap sizes; App Check wired in `main.dart`; generic auth
+error strings prevent account enumeration; email verification banner +
+`sendEmailVerification` on register; password policy raised to 10 chars
+plus letter + number; `PincodeService` has timeouts; ProGuard rules
+cover `google_sign_in` + credential manager; dead code removed
+(`maintenance_dashboard.dart`, `AppTheme.light`, `shared_preferences`,
+`tempUnit`, orphan `/bike/new` route); swipe-to-delete on history + fuel;
+`_ComponentStatusDropdown` replaced with a one-shot action button; FCM
+device token registration; CSV export of service + fuel.
 
 ## UAT changes
 

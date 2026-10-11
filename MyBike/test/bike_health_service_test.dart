@@ -8,16 +8,18 @@ import 'bike_health_test_helpers.dart';
 
 void main() {
   group('overallHealthPercent', () {
-    test('uses weighted component groups instead of a single item average', () {
+    test(
+        'only averages across tracked groups so untracked ones do not inflate '
+        'the score to a fake 100%', () {
       final reminders = [
         reminder(type: ServiceType.engineOil, usage: 0.71),
       ];
 
       final health = overallHealthPercent(reminders);
 
-      // Engine group is 29%, but chain/brakes/tyres default to 100%.
-      // Equal weights => (29 + 100 + 100 + 100) / 4 = 82.
-      expect(health, 82);
+      // Only the engine group has data. Untracked chain/brakes/tyres are
+      // excluded entirely rather than contributing a bogus 100%.
+      expect(health, 29);
     });
 
     test('applies brand/model schedule weights when profile is available', () {
@@ -72,16 +74,15 @@ void main() {
 
       final health = overallHealthPercent(reminders, profile: profile);
 
-      // Engine weight = (3 + 1) / (3 + 3 + 3 + 1) = 0.4 => score 29
-      // Chain weight = 0.3 => score 100
-      // Brakes weight = 0.3 => score 100
-      // Tyres weight = 0.0 => score 100
-      // Overall = 29*0.4 + 100*0.3 + 100*0.3 = 71.6 => 72
-      expect(health, 72);
+      // Only the engine group is tracked here; chain/brakes/tyres groups
+      // have no items and are intentionally excluded from the roll-up so
+      // we don't invent "100% healthy" numbers for things we never
+      // measured.
+      expect(health, 29);
     });
 
-    test('returns 100 when no reminders exist', () {
-      expect(overallHealthPercent(const []), 100);
+    test('returns null when nothing has been tracked yet', () {
+      expect(overallHealthPercent(const []), isNull);
     });
   });
 }

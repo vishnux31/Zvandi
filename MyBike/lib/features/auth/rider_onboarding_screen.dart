@@ -206,7 +206,7 @@ class _RiderOnboardingScreenState extends ConsumerState<RiderOnboardingScreen> {
           backgroundColor: AppColors.darkBlack,
           centerTitle: true,
           title: Text(
-            _currentStep == 1 ? "Step 1 of 3" : "Step 2 of 3",
+            _currentStep == 1 ? "Step 1 of 2" : "Step 2 of 2",
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
@@ -245,16 +245,6 @@ class _RiderOnboardingScreenState extends ConsumerState<RiderOnboardingScreen> {
                       height: 4,
                       decoration: BoxDecoration(
                         color: _currentStep >= 2 ? AppColors.primaryOrange : AppColors.surfaceLight,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Container(
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceLight,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -340,16 +330,24 @@ class _RiderOnboardingScreenState extends ConsumerState<RiderOnboardingScreen> {
                           style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 6),
-                        TextFormField(
+                        InkWell(
                           key: const ValueKey('dob_input_field'),
-                          readOnly: true,
                           onTap: _pickDob,
-                          decoration: const InputDecoration(
-                            hintText: 'dd-mm-yyyy',
-                            prefixIcon: Icon(Icons.calendar_today, color: AppColors.accentCopper),
-                          ),
-                          controller: TextEditingController(
-                            text: _dob != null ? formatDate(_dob!) : '',
+                          borderRadius: BorderRadius.circular(14),
+                          child: InputDecorator(
+                            decoration: const InputDecoration(
+                              hintText: 'dd-mm-yyyy',
+                              prefixIcon: Icon(Icons.calendar_today, color: AppColors.accentCopper),
+                            ),
+                            child: Text(
+                              _dob != null ? formatDate(_dob!) : 'dd-mm-yyyy',
+                              style: TextStyle(
+                                color: _dob != null
+                                    ? Colors.white
+                                    : AppColors.subtextZinc,
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
                         ),
                       ],

@@ -389,10 +389,10 @@ class _RemindersTabState extends ConsumerState<RemindersTab> {
                                       TextButton(
                                         onPressed: () => _onDeleteAlert(alert, activeBike),
                                         style: TextButton.styleFrom(
-                                          foregroundColor: _subtextZinc,
+                                          foregroundColor: _dangerRed,
                                         ),
                                         child: const Text(
-                                          'Dismiss',
+                                          'Delete item',
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
@@ -465,9 +465,11 @@ class _RemindersTabState extends ConsumerState<RemindersTab> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Dismiss Alert?'),
+        title: const Text('Delete maintenance item?'),
         content: Text(
-          'This will delete the maintenance item "${alert.title}" from ${activeBike?.name ?? 'your bike'}.',
+          'This permanently deletes the "${alert.title}" tracked item from '
+          '${activeBike?.name ?? 'your bike'}, including its reminder. '
+          'Logged service history for it is kept.',
         ),
         actions: [
           TextButton(
@@ -481,7 +483,7 @@ class _RemindersTabState extends ConsumerState<RemindersTab> {
               await ref.read(itemsProvider.notifier).remove(originalReminder.item.id);
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Dismissed: ${alert.title}')),
+                  SnackBar(content: Text('Deleted: ${alert.title}')),
                 );
               }
             },

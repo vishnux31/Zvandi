@@ -21,8 +21,9 @@ class Bike {
   final String? photoPath;
   final String? notes;
   final DateTime createdAt;
+  final DateTime updatedAt;
 
-  const Bike({
+  Bike({
     required this.id,
     required this.name,
     this.make,
@@ -37,7 +38,8 @@ class Bike {
     this.photoPath,
     this.notes,
     required this.createdAt,
-  });
+    DateTime? updatedAt,
+  }) : updatedAt = updatedAt ?? createdAt;
 
   String get displayTitle {
     final parts = [make, model].where((e) => e != null && e.isNotEmpty).toList();
@@ -58,6 +60,7 @@ class Bike {
     double? odometerKm,
     String? photoPath,
     String? notes,
+    DateTime? updatedAt,
   }) {
     return Bike(
       id: id,
@@ -74,6 +77,7 @@ class Bike {
       photoPath: photoPath ?? this.photoPath,
       notes: notes ?? this.notes,
       createdAt: createdAt,
+      updatedAt: updatedAt ?? DateTime.now(),
     );
   }
 
@@ -92,25 +96,33 @@ class Bike {
         'photoPath': photoPath,
         'notes': notes,
         'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String(),
       };
 
-  factory Bike.fromMap(Map<String, dynamic> map) => Bike(
-        id: map['id'] as String,
-        name: map['name'] as String,
-        make: map['make'] as String?,
-        model: map['model'] as String?,
-        brandId: map['brandId'] as String?,
-        modelId: map['modelId'] as String?,
-        year: map['year'] as int?,
-        yearOfPurchase: map['yearOfPurchase'] as int?,
-        registration: map['registration'] as String?,
-        type: BikeType.values.firstWhere(
-          (e) => e.name == map['type'],
-          orElse: () => BikeType.other,
-        ),
-        odometerKm: (map['odometerKm'] as num?)?.toDouble() ?? 0,
-        photoPath: map['photoPath'] as String?,
-        notes: map['notes'] as String?,
-        createdAt: DateTime.parse(map['createdAt'] as String),
-      );
+  factory Bike.fromMap(Map<String, dynamic> map) {
+    final createdAt = DateTime.parse(map['createdAt'] as String);
+    return Bike(
+      id: map['id'] as String,
+      name: map['name'] as String,
+      make: map['make'] as String?,
+      model: map['model'] as String?,
+      brandId: map['brandId'] as String?,
+      modelId: map['modelId'] as String?,
+      year: map['year'] as int?,
+      yearOfPurchase: map['yearOfPurchase'] as int?,
+      registration: map['registration'] as String?,
+      type: BikeType.values.firstWhere(
+        (e) => e.name == map['type'],
+        orElse: () => BikeType.other,
+      ),
+      odometerKm: (map['odometerKm'] as num?)?.toDouble() ?? 0,
+      photoPath: map['photoPath'] as String?,
+      notes: map['notes'] as String?,
+      createdAt: createdAt,
+      // Fall back to createdAt for rows written before updatedAt existed.
+      updatedAt: map['updatedAt'] == null
+          ? createdAt
+          : DateTime.parse(map['updatedAt'] as String),
+    );
+  }
 }

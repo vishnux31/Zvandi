@@ -39,6 +39,38 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     super.dispose();
   }
 
+  /// Maps a FirebaseAuthException to a user-safe, non-enumerating message.
+  /// Firebase's own messages distinguish "no such user" from "wrong
+  /// password", which would let an attacker enumerate accounts.
+  String _friendlyAuthError(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'invalid-email':
+        return 'Enter a valid email address.';
+      case 'weak-password':
+        return 'Password is too weak. Use at least 10 characters.';
+      case 'email-already-in-use':
+        // Deliberately kept generic to avoid enumeration during registration.
+        return 'Could not create account. Try signing in instead.';
+      case 'too-many-requests':
+        return 'Too many attempts. Try again in a few minutes.';
+      case 'network-request-failed':
+        return 'Network error. Check your connection and try again.';
+      case 'user-disabled':
+        return 'This account is disabled. Contact support.';
+      case 'operation-not-allowed':
+        return 'This sign-in method is not enabled. Try another option.';
+      // These four all collapse to one message so the UI can't be used to
+      // probe whether a given email exists in our user base.
+      case 'user-not-found':
+      case 'wrong-password':
+      case 'invalid-credential':
+      case 'invalid-login-credentials':
+        return 'Email or password is incorrect.';
+      default:
+        return 'Could not sign in. Please try again.';
+    }
+  }
+
   Future<void> _run(Future<void> Function() action) async {
     setState(() {
       _busy = true;
@@ -47,8 +79,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     try {
       await action();
     } on FirebaseAuthException catch (e) {
-      setState(() => _error = e.message ?? e.code);
-    } catch (e) {
+      setState(() => _error = _friendlyAuthError(e));
+    } catch (_) {
       setState(() => _error = 'Something went wrong. Please try again.');
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -61,6 +93,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     await _run(() async {
       if (_isRegister) {
         await auth.registerWithEmail(_email.text, _password.text);
+        // Fire-and-forget: a failed verification send must not block sign-up.
+        try {
+          await auth.sendEmailVerificationIfNeeded();
+        } catch (_) {}
       } else {
         await auth.signInWithEmail(_email.text, _password.text);
       }
@@ -78,14 +114,26 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
       return;
     }
     final auth = ref.read(authServiceProvider);
-    await _run(() async {
-      await auth.sendPasswordReset(_email.text);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Password reset email sent.')),
-        );
-      }
+    setState(() {
+      _busy = true;
+      _error = null;
     });
+    // Always show the same message regardless of whether Firebase found a
+    // matching account — otherwise the form reveals which emails exist.
+    try {
+      await auth.sendPasswordReset(_email.text);
+    } catch (_) {
+      // Swallow — we intentionally don't surface outcome.
+    }
+    if (!mounted) return;
+    setState(() => _busy = false);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          "If an account exists for that email, we've sent a reset link.",
+        ),
+      ),
+    );
   }
 
   @override
@@ -397,9 +445,21 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
               borderSide: const BorderSide(color: _outlineGray),
             ),
           ),
-          validator: (v) => (v == null || v.length < 6)
-              ? 'At least 6 characters'
-              : null,
+          validator: (v) {
+            final value = v ?? '';
+            // Firebase itself only enforces 6; we enforce stronger client
+            // side. Length + at least one letter + at least one digit is a
+            // low-friction floor that still rejects "123456" / "qwerty".
+            if (value.length < 10) return 'At least 10 characters';
+            if (!_isRegister) return null;
+            if (!RegExp(r'[A-Za-z]').hasMatch(value)) {
+              return 'Add at least one letter';
+            }
+            if (!RegExp(r'[0-9]').hasMatch(value)) {
+              return 'Add at least one number';
+            }
+            return null;
+          },
         ),
         if (!_isRegister)
           Align(

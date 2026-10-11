@@ -1,21 +1,160 @@
 rules_version = '2';
 
-// All MyBike user data lives under users/{uid}/... so each signed-in user can
-// only ever read or write their own documents.
+// All MyBike user data lives under users/{uid}/... Each signed-in user can
+// only read/write their own documents, and each collection validates shape
+// to prevent payload abuse from a hostile client armed with the API key.
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/{userId}/{document=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+    // --- Shared helpers --------------------------------------------------
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+    // Firestore caps a document at ~1 MiB. Reject anything above 32 KiB —
+    // every entity we store is tens of fields and well under that budget.
+    function reasonableSize() {
+      return request.resource.size() < 32 * 1024;
+    }
+    function isIsoDate(v) {
+      return v is string && v.size() >= 10 && v.size() <= 40;
+    }
+    function isNullOrString(v, maxLen) {
+      return v == null || (v is string && v.size() <= maxLen);
     }
 
-    // Global bike brand/model reference data: readable by any signed-in user,
-    // never writable from the client (seeded server-side).
+    // --- Bikes -----------------------------------------------------------
+    function validBike(d) {
+      return d.id is string && d.id.size() <= 64
+          && d.name is string && d.name.size() >= 1 && d.name.size() <= 80
+          && isNullOrString(d.make, 80)
+          && isNullOrString(d.model, 80)
+          && isNullOrString(d.brandId, 128)
+          && isNullOrString(d.modelId, 256)
+          && (d.year == null || (d.year is int && d.year >= 1900 && d.year <= 2100))
+          && (d.yearOfPurchase == null || (d.yearOfPurchase is int && d.yearOfPurchase >= 1900 && d.yearOfPurchase <= 2100))
+          && isNullOrString(d.registration, 32)
+          && isNullOrString(d.type, 32)
+          && d.odometerKm is number && d.odometerKm >= 0 && d.odometerKm <= 10000000
+          && isNullOrString(d.photoPath, 1024)
+          && isNullOrString(d.notes, 2000)
+          && isIsoDate(d.createdAt)
+          && (d.updatedAt == null || isIsoDate(d.updatedAt));
+    }
+
+    // --- Maintenance items -----------------------------------------------
+    function validItem(d) {
+      return d.id is string && d.id.size() <= 64
+          && d.bikeId is string && d.bikeId.size() <= 64
+          && d.name is string && d.name.size() >= 1 && d.name.size() <= 120
+          && isNullOrString(d.type, 32)
+          && (d.intervalKm == null || (d.intervalKm is number && d.intervalKm >= 0 && d.intervalKm <= 1000000))
+          && (d.intervalMonths == null || (d.intervalMonths is int && d.intervalMonths >= 0 && d.intervalMonths <= 1200))
+          && d.lastServiceOdometerKm is number && d.lastServiceOdometerKm >= 0 && d.lastServiceOdometerKm <= 10000000
+          && isIsoDate(d.lastServiceDate)
+          && isNullOrString(d.notes, 2000)
+          && isIsoDate(d.createdAt)
+          && (d.updatedAt == null || isIsoDate(d.updatedAt));
+    }
+
+    // --- Service records -------------------------------------------------
+    function validRecord(d) {
+      return d.id is string && d.id.size() <= 64
+          && d.bikeId is string && d.bikeId.size() <= 64
+          && isNullOrString(d.itemId, 64)
+          && isNullOrString(d.type, 32)
+          && isIsoDate(d.date)
+          && d.odometerKm is number && d.odometerKm >= 0 && d.odometerKm <= 10000000
+          && (d.cost == null || (d.cost is number && d.cost >= 0 && d.cost <= 10000000))
+          && isNullOrString(d.notes, 4000)
+          && isNullOrString(d.provider, 120)
+          && isIsoDate(d.createdAt)
+          && (d.updatedAt == null || isIsoDate(d.updatedAt));
+    }
+
+    // --- Fuel entries ----------------------------------------------------
+    function validFuel(d) {
+      return d.id is string && d.id.size() <= 64
+          && d.bikeId is string && d.bikeId.size() <= 64
+          && isIsoDate(d.date)
+          && d.odometerKm is number && d.odometerKm >= 0 && d.odometerKm <= 10000000
+          && d.liters is number && d.liters > 0 && d.liters <= 500
+          && (d.cost == null || (d.cost is number && d.cost >= 0 && d.cost <= 1000000))
+          && (d.fullTank == null || d.fullTank is bool)
+          && isNullOrString(d.notes, 2000)
+          && isIsoDate(d.createdAt)
+          && (d.updatedAt == null || isIsoDate(d.updatedAt));
+    }
+
+    // --- Rider profile ---------------------------------------------------
+    function validRiderProfile(d) {
+      // Firestore `FieldValue.delete()` arrives as the field being absent on
+      // the resulting resource, so we only validate what's actually written.
+      return (!d.keys().hasAny(['name']) || (d.name is string && d.name.size() <= 120))
+          && (!d.keys().hasAny(['gender']) || (d.gender is string && d.gender in ['male', 'female', 'other']))
+          && (!d.keys().hasAny(['dateOfBirth']) || isIsoDate(d.dateOfBirth))
+          && (!d.keys().hasAny(['phone']) || (d.phone is string && d.phone.size() <= 20))
+          && (!d.keys().hasAny(['profession']) || (d.profession is string && d.profession.size() <= 120))
+          && (!d.keys().hasAny(['pincode']) || (d.pincode is string && d.pincode.size() == 6))
+          && (!d.keys().hasAny(['state']) || (d.state is string && d.state.size() <= 60))
+          && (!d.keys().hasAny(['city']) || (d.city is string && d.city.size() <= 80));
+    }
+
+    // --- Access rules ----------------------------------------------------
+    match /users/{userId}/bikes/{bikeId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && reasonableSize() && validBike(request.resource.data);
+      allow delete: if isOwner(userId);
+    }
+
+    match /users/{userId}/maintenance_items/{itemId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && reasonableSize() && validItem(request.resource.data);
+      allow delete: if isOwner(userId);
+    }
+
+    match /users/{userId}/service_records/{recordId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && reasonableSize() && validRecord(request.resource.data);
+      allow delete: if isOwner(userId);
+    }
+
+    match /users/{userId}/fuel_entries/{fuelId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && reasonableSize() && validFuel(request.resource.data);
+      allow delete: if isOwner(userId);
+    }
+
+    match /users/{userId}/profile/{profileId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && reasonableSize() && validRiderProfile(request.resource.data);
+      allow delete: if isOwner(userId);
+    }
+
+    // FCM device tokens are small; validate shape and keep them per-user.
+    match /users/{userId}/devices/{deviceId} {
+      allow read, delete: if isOwner(userId);
+      allow create, update: if isOwner(userId)
+          && reasonableSize()
+          && request.resource.data.token is string
+          && request.resource.data.token.size() < 4096;
+    }
+
+    // Anything else under users/{uid} is explicitly disallowed. If a future
+    // feature needs a new sub-collection, add its own rule block above.
+    match /users/{userId}/{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global reference data: readable by any signed-in user, never writable.
     match /brands/{doc} {
-      allow read: if request.auth != null;
+      allow read: if signedIn();
       allow write: if false;
     }
     match /models/{doc} {
-      allow read: if request.auth != null;
+      allow read: if signedIn();
       allow write: if false;
     }
   }

@@ -19,6 +19,14 @@ abstract class AuthService {
   Future<void> updateDisplayName(String name);
   Future<UserCredential> signInWithGoogle();
   Future<void> signOut();
+
+  /// Sends an email-verification mail to the current user (no-op when
+  /// already verified or when signed out).
+  Future<void> sendEmailVerificationIfNeeded();
+
+  /// Deletes the current Firebase Auth user. The caller is responsible for
+  /// clearing Firestore and local state first.
+  Future<void> deleteCurrentUser();
 }
 
 /// Firebase implementation of AuthService.
@@ -82,6 +90,30 @@ class FirebaseAuthService implements AuthService {
       }
     }
     await _auth.signOut();
+  }
+
+  @override
+  Future<void> sendEmailVerificationIfNeeded() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+    await user.reload();
+    if (user.emailVerified) return;
+    await user.sendEmailVerification();
+  }
+
+  @override
+  Future<void> deleteCurrentUser() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+    try {
+      await user.delete();
+    } on FirebaseAuthException catch (e) {
+      // "requires-recent-login" — Firebase insists the user has signed in
+      // recently before a destructive action. Rethrow so the UI can prompt
+      // the user to re-authenticate.
+      if (e.code == 'requires-recent-login') rethrow;
+      rethrow;
+    }
   }
 }
 

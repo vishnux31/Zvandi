@@ -50,10 +50,12 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
         _existing = item;
         _name.text = item.name;
         _type = item.type;
-        _intervalKm.text =
-            item.intervalKm == null ? '' : unit.fromKm(item.intervalKm!).round().toString();
+        _intervalKm.text = item.intervalKm == null
+            ? ''
+            : formatOdometerForInput(unit.fromKm(item.intervalKm!));
         _intervalMonths.text = item.intervalMonths?.toString() ?? '';
-        _lastOdo.text = unit.fromKm(item.lastServiceOdometerKm).round().toString();
+        _lastOdo.text =
+            formatOdometerForInput(unit.fromKm(item.lastServiceOdometerKm));
         _lastDate = item.lastServiceDate;
         _notes.text = item.notes ?? '';
         return;
@@ -63,14 +65,14 @@ class _ItemFormScreenState extends ConsumerState<ItemFormScreen> {
     _applyTypeDefaults(_type, unit);
     final bike = ref.read(bikeByIdProvider(widget.bikeId));
     _lastOdo.text =
-        unit.fromKm(bike?.odometerKm ?? 0).round().toString();
+        formatOdometerForInput(unit.fromKm(bike?.odometerKm ?? 0));
   }
 
   void _applyTypeDefaults(ServiceType type, DistanceUnit unit) {
     _name.text = type.label;
     _intervalKm.text = type.defaultIntervalKm == null
         ? ''
-        : unit.fromKm(type.defaultIntervalKm!).round().toString();
+        : formatOdometerForInput(unit.fromKm(type.defaultIntervalKm!));
     _intervalMonths.text = type.defaultIntervalMonths?.toString() ?? '';
   }
 

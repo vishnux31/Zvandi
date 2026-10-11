@@ -37,6 +37,16 @@ String formatDistanceShort(double km, DistanceUnit unit) {
 String formatCost(double cost) =>
     '$kCurrencySymbol${_decimalFormat.format(cost)}';
 
+/// Odometer value formatted for an editable `TextField`:
+/// whole numbers display without a decimal, fractional values keep one
+/// decimal place. Avoids `.round()` which silently discards precision on
+/// every form open/save round-trip.
+String formatOdometerForInput(double value) {
+  if (value <= 0) return '';
+  if (value == value.roundToDouble()) return value.toStringAsFixed(0);
+  return value.toStringAsFixed(1);
+}
+
 /// A human friendly "due in" / "overdue" string from a signed remaining value.
 String relativeDays(DateTime due, DateTime now) {
   final days = due.difference(DateTime(now.year, now.month, now.day)).inDays;

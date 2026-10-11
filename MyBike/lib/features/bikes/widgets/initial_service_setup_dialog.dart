@@ -56,7 +56,7 @@ class _InitialServiceSetupDialogState
     if (bike == null) return;
     _odometerPrefilled = true;
     _lastServiceOdoCtrl.text =
-        unit.fromKm(bike.odometerKm).round().toString();
+        formatOdometerForInput(unit.fromKm(bike.odometerKm));
   }
 
   void _initTasks(List<ScheduledMaintenanceTask> tasks) {
