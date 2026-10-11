@@ -3,6 +3,11 @@ import java.io.FileInputStream
 
 plugins {
     id("com.android.application")
+    // Kotlin plugin is required explicitly on AGP 8.x. The transitive
+    // FlutterFire + share_plus plugins apply `kotlin-android` to their
+    // own modules, which only resolves cleanly when the classpath carries
+    // Kotlin — see settings.gradle.kts for the version pin rationale.
+    id("org.jetbrains.kotlin.android")
     // START: FlutterFire Configuration
     id("com.google.gms.google-services")
     // END: FlutterFire Configuration

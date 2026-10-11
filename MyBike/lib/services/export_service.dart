@@ -16,10 +16,9 @@ class ExportService {
   ExportService(this._ref);
   final Ref _ref;
 
-  /// Returns the two generated file paths (service + fuel) and triggers the
-  /// native share sheet. On a device without a share target, the files are
-  /// still written to the app's documents directory and can be fetched by
-  /// the caller.
+  /// Returns the two generated file paths (service + fuel) and triggers
+  /// the native share sheet. On a device without a share target the files
+  /// still exist on disk and the caller can surface the paths.
   Future<ExportResult> exportAll() async {
     final bikes = _ref.read(bikesProvider);
     final records = _ref.read(recordsProvider);
@@ -34,8 +33,6 @@ class ExportService {
       content: _fuelCsv(fuel, bikes),
     );
 
-    // Share both files. Failures (no share target, declined) must not
-    // break the export — the files still exist on disk.
     try {
       await SharePlus.instance.share(
         ShareParams(
@@ -44,7 +41,7 @@ class ExportService {
         ),
       );
     } catch (_) {
-      // Swallow: caller already has the paths and can surface them.
+      // Share failure must not break the export — the files still exist.
     }
 
     return ExportResult(servicePath: servicePath, fuelPath: fuelPath);

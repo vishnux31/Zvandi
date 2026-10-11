@@ -19,11 +19,16 @@ pluginManagement {
 
 plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
-    id("com.android.application") version "9.0.1" apply false
+    // AGP 8.x — AGP 9's built-in Kotlin conflicts with several FlutterFire
+    // and share_plus-era plugins that still `apply plugin: 'kotlin-android'`
+    // unconditionally or guard it only on `agpMajor < 9` while relying on
+    // host Kotlin otherwise. Staying on 8.7.3 is the lowest-risk path until
+    // every transitive plugin ships an AGP 9-compatible build script.
+    id("com.android.application") version "8.7.3" apply false
     // START: FlutterFire Configuration
     id("com.google.gms.google-services") version("4.3.15") apply false
     // END: FlutterFire Configuration
-    id("org.jetbrains.kotlin.android") version "2.3.20" apply false
+    id("org.jetbrains.kotlin.android") version "2.1.0" apply false
 }
 
 include(":app")
